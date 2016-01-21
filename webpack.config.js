@@ -21,17 +21,10 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel",
-        query: {
-          presets: [
-            'react',
-            'es2015'
-          ],
-          plugins: [
-            'transform-class-properties',
-            'transform-object-rest-spread'
-          ]
-        },
+        loaders: [
+          "react-hot",
+          "babel?presets[]=react&presets[]=es2015&plugins[]=transform-class-properties&plugins[]=transform-object-rest-spread"
+        ]
       }
     ]
   },
