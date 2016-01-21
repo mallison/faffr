@@ -29,6 +29,7 @@ export default class Faffr extends React.Component {
                 <Slot {...s}
                 onNoteChange={this._changeNote.bind(this, i)}
                 isEditable={this.state.isEditing === i}
+                showNote={i === this.state.slots.length - 1}
                 onClickEdit={this._markEditable.bind(this, i)}
                 onUpdateSlot={this._updateSlot.bind(this, i)}
                 />

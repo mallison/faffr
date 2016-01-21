@@ -31,7 +31,8 @@ export default class Slot extends React.Component {
          </dd>
          </dl>
          </div>
-        }
+         }
+         {this.props.showNote ?
          <textarea
                  placeholder="Add note"
                 ref={t => this._note = t}
@@ -39,7 +40,7 @@ export default class Slot extends React.Component {
                 cols={70}
                 value={this.props.note}
                 onChange={e => this.props.onNoteChange(e.target.value)}
-        />
+        /> : null }
       </div>
     );
   }
