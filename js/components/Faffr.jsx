@@ -2,15 +2,16 @@ import React, { PropTypes } from 'react';
 
 import TaskSwitcher from './TaskSwitcher';
 import Slot from './Slot';
+import Visualiser from './Visualiser';
 
 export default class Faffr extends React.Component {
   state = {
     slots: [
-      {
-        start: new Date(),
-        task: 'coding',
-        note: ''
-      }
+      /* {
+         start: new Date(),
+         task: 'coding',
+         note: ''
+         } */
     ],
     isEditing: null
   };
@@ -21,18 +22,23 @@ export default class Faffr extends React.Component {
         <h1>Faffr</h1>
         <TaskSwitcher onStartTask={this._startTask} />
         <hr />
-        {this.state.slots.map(
-          (s, i) => {
-            return (
-              <Slot {...s}
-              onNoteChange={this._changeNote.bind(this, i)}
-              isEditable={this.state.isEditing === i}
-              onClickEdit={this._markEditable.bind(this, i)}
-              onUpdateSlot={this._updateSlot.bind(this, i)}
-              />
-            );
-          }
-         )}
+        <div style={{width: '40%', height: 600, 'float': 'left', overflowY: 'scroll'}}>
+          {this.state.slots.map(
+            (s, i) => {
+              return (
+                <Slot {...s}
+                onNoteChange={this._changeNote.bind(this, i)}
+                isEditable={this.state.isEditing === i}
+                onClickEdit={this._markEditable.bind(this, i)}
+                onUpdateSlot={this._updateSlot.bind(this, i)}
+                />
+              );
+            }
+           )}
+        </div>
+        <div style={{width: '20%', height: 600, 'float': 'left'}}>
+          {this.state.slots.length ? <Visualiser slots={this.state.slots} /> : null}
+        </div>
       </div>
     );
   }

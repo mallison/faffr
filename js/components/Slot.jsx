@@ -32,14 +32,14 @@ export default class Slot extends React.Component {
          </dl>
          </div>
         }
-        <textarea
+         <textarea
+                 placeholder="Add note"
                 ref={t => this._note = t}
                 rows={4}
                 cols={70}
                 value={this.props.note}
                 onChange={e => this.props.onNoteChange(e.target.value)}
         />
-        <hr />
       </div>
     );
   }
