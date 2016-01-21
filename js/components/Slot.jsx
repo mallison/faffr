@@ -25,7 +25,7 @@ export default class Slot extends React.Component {
          Edit
          </button>
          <dl>
-         <dt>{this.props.start}</dt>
+         <dt>{this.props.start.toLocaleTimeString()}</dt>
          <dd>
          {this.props.task}
          </dd>

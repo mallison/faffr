@@ -7,7 +7,7 @@ export default class Faffr extends React.Component {
   state = {
     slots: [
       {
-        start: '12:00',
+        start: new Date(),
         task: 'coding',
         note: ''
       }
