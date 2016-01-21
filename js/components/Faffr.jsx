@@ -11,7 +11,8 @@ export default class Faffr extends React.Component {
         task: 'coding',
         note: ''
       }
-    ]
+    ],
+    isEditing: null
   };
 
   render() {
@@ -19,8 +20,18 @@ export default class Faffr extends React.Component {
       <div>
         <h1>Faffr</h1>
         <TaskSwitcher onStartTask={this._startTask} />
+        <hr />
         {this.state.slots.map(
-          (s, i) => <Slot {...s} onNoteChange={this._changeNote.bind(this, i)} />
+          (s, i) => {
+            return (
+              <Slot {...s}
+              onNoteChange={this._changeNote.bind(this, i)}
+              isEditable={this.state.isEditing === i}
+              onClickEdit={this._markEditable.bind(this, i)}
+              onUpdateSlot={this._updateSlot.bind(this, i)}
+              />
+            );
+          }
          )}
       </div>
     );
@@ -41,5 +52,20 @@ export default class Faffr extends React.Component {
     let slots = this.state.slots;
     slots[index].note = note;
     this.setState({slots: slots});
+  }
+
+  _markEditable(index) {
+    this.setState({isEditing: index});
+  }
+
+  _updateSlot(index, task, start) {
+    let slots = this.state.slots;
+    let slot = slots[index];
+    slot.task = task;
+    slot.start = start;
+    this.setState({
+      slots: slots,
+      isEditing: null
+    });
   }
 }
