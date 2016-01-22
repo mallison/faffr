@@ -51,6 +51,12 @@ export default class Slot extends React.Component {
                 >
           Delete
         </button>
+        {' '}
+        <button
+                onClick={this.props.onInsertSlot}
+                >
+          Insert
+        </button>
       </p>
     );
   }

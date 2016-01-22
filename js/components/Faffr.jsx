@@ -33,6 +33,7 @@ export default class Faffr extends React.Component {
                 onClickEdit={this._markEditable.bind(this, i)}
                 onUpdateSlot={this._updateSlot.bind(this, i)}
                 onDeleteSlot={this._deleteSlot.bind(this, i)}
+                onInsertSlot={this._insertSlot.bind(this, i)}
                 />
               );
             }
@@ -83,6 +84,15 @@ export default class Faffr extends React.Component {
     this.setState({
       slots: slots,
       isEditing: null
+    });
+  }
+
+  _insertSlot(index) {
+    let slots = this.state.slots;
+    slots.splice(index, 0, {task: '', start: slots[index].start});
+    this.setState({
+      slots: slots,
+      isEditing: index
     });
   }
 }
