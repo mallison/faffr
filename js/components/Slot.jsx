@@ -14,11 +14,6 @@ export default class Slot extends React.Component {
          this._renderTaskAndTimeEditor() :
          this._renderTaskAndTime()
          }
-        <button
-                onClick={this.props.onDeleteSlot}
-                >
-          Delete
-        </button>
         {this.props.showNote ?
          this._renderNoteEditor() :
          this._renderNote()
@@ -40,19 +35,23 @@ export default class Slot extends React.Component {
 
   _renderTaskAndTime() {
     return (
-      <div>
-        <p>
-          {this.props.start.toLocaleTimeString()}
-          {' '}
-          {this.props.task}
-          {' '}
-          <button
-                  onClick={this.props.onClickEdit}
-                  >
-            Edit
-          </button>
-        </p>
-      </div>
+      <p>
+        {this.props.start.toLocaleTimeString()}
+        {' '}
+        {this.props.task}
+        {' '}
+        <button
+                onClick={this.props.onClickEdit}
+                >
+          Edit
+        </button>
+        {' '}
+        <button
+                onClick={this.props.onDeleteSlot}
+                >
+          Delete
+        </button>
+      </p>
     );
   }
 

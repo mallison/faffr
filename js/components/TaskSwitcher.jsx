@@ -23,7 +23,7 @@ export default class TaskSwitcher extends React.Component {
 
   render() {
     return (
-      <form>
+      <p>
         <label>
           Start time:{' '}
           <input
@@ -53,7 +53,7 @@ export default class TaskSwitcher extends React.Component {
         :
         null
         }
-      </form>
+      </p>
     );
   }
 
