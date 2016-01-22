@@ -2,7 +2,11 @@ import React, { PropTypes } from 'react';
 
 export default class Visualiser extends React.Component {
   componentDidMount() {
-    setInterval(this._tick, 1000);
+    this._tickInterval = setInterval(this._tick, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._tickInterval);
   }
 
   _tick = () => {
