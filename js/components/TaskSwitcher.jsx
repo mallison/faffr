@@ -23,7 +23,7 @@ export default class TaskSwitcher extends React.Component {
 
   render() {
     return (
-      <form>
+      <p>
         <label>
           Start time:{' '}
           <input
@@ -44,6 +44,7 @@ export default class TaskSwitcher extends React.Component {
             {TASKS.map(t => <option value={t}>{t}</option>)}
           </select>
         </label>
+        {' '}
         {this.props.withSave ?
          <button
          onClick={this._onSave}
@@ -53,7 +54,7 @@ export default class TaskSwitcher extends React.Component {
         :
         null
         }
-      </form>
+      </p>
     );
   }
 

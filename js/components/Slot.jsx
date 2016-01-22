@@ -11,37 +11,70 @@ export default class Slot extends React.Component {
     return (
       <div>
         {this.props.isEditable ?
-         <TaskSwitcher
-         task={this.props.task}
-         start={this.props.start}
-         withSave={true}
-         onStartTask={this.props.onUpdateSlot}
-         />
-         :
-         <div>
-         <button
-         onClick={this.props.onClickEdit}
-         >
-         Edit
-         </button>
-         <dl>
-         <dt>{this.props.start.toLocaleTimeString()}</dt>
-         <dd>
-         {this.props.task}
-         </dd>
-         </dl>
-         </div>
+         this._renderTaskAndTimeEditor() :
+         this._renderTaskAndTime()
          }
-         {this.props.showNote ?
-         <textarea
-                 placeholder="Add note"
-                ref={t => this._note = t}
-                rows={4}
-                cols={70}
-                value={this.props.note}
-                onChange={e => this.props.onNoteChange(e.target.value)}
-        /> : null }
+        {this.props.showNote ?
+         this._renderNoteEditor() :
+         this._renderNote()
+         }
       </div>
     );
+  }
+
+  _renderTaskAndTimeEditor() {
+    return (
+      <TaskSwitcher
+              task={this.props.task}
+              start={this.props.start}
+              withSave={true}
+              onStartTask={this.props.onUpdateSlot}
+      />
+    );
+  }
+
+  _renderTaskAndTime() {
+    return (
+      <p>
+        {this.props.start.toLocaleTimeString()}
+        {' '}
+        {this.props.task}
+        {' '}
+        <button
+                onClick={this.props.onClickEdit}
+                >
+          Edit
+        </button>
+        {' '}
+        <button
+                onClick={this.props.onDeleteSlot}
+                >
+          Delete
+        </button>
+        {' '}
+        <button
+                onClick={this.props.onInsertSlot}
+                >
+          Insert
+        </button>
+      </p>
+    );
+  }
+
+  _renderNoteEditor() {
+    return (
+      <textarea
+              placeholder="Add note"
+              ref={t => this._note = t}
+              rows={4}
+              cols={70}
+              value={this.props.note}
+              onChange={e => this.props.onNoteChange(e.target.value)}
+      />
+    );
+  }
+
+  _renderNote() {
+    return <p>{this.props.note}</p>;
   }
 }
