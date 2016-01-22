@@ -19,17 +19,17 @@ export default class Slot extends React.Component {
          />
          :
          <div>
+         <p>
+         {this.props.start.toLocaleTimeString()}
+         {' '}
+         {this.props.task}
+         {' '}
          <button
          onClick={this.props.onClickEdit}
          >
          Edit
          </button>
-         <dl>
-         <dt>{this.props.start.toLocaleTimeString()}</dt>
-         <dd>
-         {this.props.task}
-         </dd>
-         </dl>
+         </p>
          </div>
          }
          {this.props.showNote ?
