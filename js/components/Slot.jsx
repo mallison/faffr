@@ -14,6 +14,11 @@ export default class Slot extends React.Component {
          this._renderTaskAndTimeEditor() :
          this._renderTaskAndTime()
          }
+        <button
+                onClick={this.props.onDeleteSlot}
+                >
+          Delete
+        </button>
         {this.props.showNote ?
          this._renderNoteEditor() :
          this._renderNote()
