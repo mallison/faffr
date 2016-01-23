@@ -3,30 +3,77 @@ import React, { PropTypes } from 'react';
 import TaskSwitcher from './TaskSwitcher';
 import Slot from './Slot';
 import Visualiser from './Visualiser';
+import Day from './Day';
+
+const TASKS = [
+  {name: 'afk', colour: 'red'},
+  {name: 'lunch', colour: 'green'},
+  {name: 'admin', colour: 'blue'},
+  {name: 'coding', colour: 'yellow'},
+  {name: 'workout', colour: 'purple'}
+];
 
 export default class Faffr extends React.Component {
   state = {
     slots: [
-      /* {
-         start: new Date(),
-         task: 'coding',
-         note: ''
-         } */
+      {
+        start: new Date('2016-01-23 07:30'),
+        task: 'workout',
+        note: ''
+      },
+      {
+        start: new Date('2016-01-23 09:00'),
+        task: 'coding',
+        note: ''
+      },
+      {
+        start: new Date('2016-01-23 11:00'),
+        task: 'admin',
+        note: ''
+      },
+      {
+        start: new Date('2016-01-23 12:30'),
+        task: 'lunch',
+        note: ''
+      },
+      {
+        start: new Date('2016-01-23 13:20'),
+        task: 'coding',
+        note: ''
+      },
+      {
+        start: new Date('2016-01-23 15:00'),
+        task: 'workout',
+        note: ''
+      },
+      {
+        start: new Date('2016-01-23 16:15'),
+        task: 'afk',
+        note: ''
+      }
     ],
     isEditing: null
   };
 
+  componentDidMount() {
+    this._slots.scrollTop = this._slots.scrollHeight;
+  }
+
   render() {
+    let taskNames = TASKS.map(t => t.name);
     return (
       <div>
         <h1>Faffr</h1>
-        <TaskSwitcher onStartTask={this._startTask} />
-        <hr />
-        <div style={{width: '40%', height: 600, 'float': 'left', overflowY: 'scroll'}}>
+        <div style={{width: '40%', height: 300, 'float': 'left'}}>
+          <div
+                  style={{height: '100%', overflowY: 'scroll'}}
+                  ref={r => this._slots = r}
+                  >
           {this.state.slots.map(
             (s, i) => {
               return (
                 <Slot {...s}
+                tasks={taskNames}
                 onNoteChange={this._changeNote.bind(this, i)}
                 isEditable={this.state.isEditing === i}
                 showNote={i === this.state.slots.length - 1}
@@ -38,9 +85,11 @@ export default class Faffr extends React.Component {
               );
             }
            )}
+          </div>
+          <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
         </div>
-        <div style={{width: '20%', height: 600, 'float': 'left'}}>
-          {this.state.slots.length ? <Visualiser slots={this.state.slots} /> : null}
+        <div style={{width: '20%', height: 300, 'float': 'left'}}>
+          <Day slots={this.state.slots} tasks={TASKS} />
         </div>
       </div>
     );

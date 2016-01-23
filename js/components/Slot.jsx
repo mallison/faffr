@@ -4,7 +4,9 @@ import TaskSwitcher from './TaskSwitcher';
 
 export default class Slot extends React.Component {
   componentDidMount() {
-    this._note.focus();
+    if (this._note) {
+      this._note.focus();
+    }
   }
 
   render() {
@@ -25,6 +27,7 @@ export default class Slot extends React.Component {
   _renderTaskAndTimeEditor() {
     return (
       <TaskSwitcher
+              tasks={this.props.tasks}
               task={this.props.task}
               start={this.props.start}
               withSave={true}
