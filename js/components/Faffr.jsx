@@ -17,6 +17,11 @@ export default class Faffr extends React.Component {
   state = {
     slots: [
       {
+        start: new Date('2016-01-23 07:30'),
+        task: 'workout',
+        note: ''
+      },
+      {
         start: new Date('2016-01-23 09:00'),
         task: 'coding',
         note: ''
@@ -50,14 +55,20 @@ export default class Faffr extends React.Component {
     isEditing: null
   };
 
+  componentDidMount() {
+    this._slots.scrollTop = this._slots.scrollHeight;
+  }
+
   render() {
     let taskNames = TASKS.map(t => t.name);
     return (
       <div>
         <h1>Faffr</h1>
-        <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
-        <hr />
-        <div style={{width: '40%', height: 300, 'float': 'left', overflowY: 'scroll'}}>
+        <div style={{width: '40%', height: 300, 'float': 'left'}}>
+          <div
+                  style={{height: '100%', overflowY: 'scroll'}}
+                  ref={r => this._slots = r}
+                  >
           {this.state.slots.map(
             (s, i) => {
               return (
@@ -74,6 +85,8 @@ export default class Faffr extends React.Component {
               );
             }
            )}
+          </div>
+          <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
         </div>
         <div style={{width: '20%', height: 300, 'float': 'left'}}>
           <Day slots={this.state.slots} tasks={TASKS} />
