@@ -4,7 +4,9 @@ import TaskSwitcher from './TaskSwitcher';
 
 export default class Slot extends React.Component {
   componentDidMount() {
-    this._note.focus();
+    if (this._note) {
+      this._note.focus();
+    }
   }
 
   render() {
