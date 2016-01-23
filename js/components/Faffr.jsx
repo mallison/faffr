@@ -7,9 +7,10 @@ import Day from './Day';
 
 const TASKS = [
   {name: 'afk', colour: 'red'},
-  {name: 'lunch',colour: 'green'},
+  {name: 'lunch', colour: 'green'},
   {name: 'admin', colour: 'blue'},
-  {name: 'coding', colour: 'yellow'}
+  {name: 'coding', colour: 'yellow'},
+  {name: 'workout', colour: 'purple'}
 ];
 
 export default class Faffr extends React.Component {
