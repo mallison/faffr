@@ -4,6 +4,7 @@ import TaskSwitcher from './TaskSwitcher';
 import Slot from './Slot';
 import Visualiser from './Visualiser';
 import Day from './Day';
+import Month from './Month';
 
 const TASKS = [
   {name: 'afk', colour: 'red'},
@@ -70,6 +71,8 @@ export default class Faffr extends React.Component {
     return (
       <div>
         <h1>Faffr</h1>
+        <Month year={2016} month={0} slots={this.state.slots} tasks={TASKS} />
+        <hr style={{clear: 'both'}}/>
         <div style={{width: '40%', height: 300, 'float': 'left'}}>
           <div
                   style={{height: '100%', overflowY: 'scroll'}}
