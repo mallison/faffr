@@ -72,6 +72,7 @@ export default class Faffr extends React.Component {
       <div>
         <h1>Faffr</h1>
         <Month year={2016} month={0} slots={this.state.slots} tasks={TASKS} />
+        <hr style={{clear: 'both'}}/>
         <div style={{width: '40%', height: 300, 'float': 'left'}}>
           <div
                   style={{height: '100%', overflowY: 'scroll'}}

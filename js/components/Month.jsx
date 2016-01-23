@@ -9,7 +9,7 @@ export default class Month extends React.Component {
 
   render() {
     let monthStyle = {
-      width: this.props.dayWidth * 7
+      width: this.props.dayWidth * 7,
     };
     let firstDayOffset = this._getOffset();
     return (
