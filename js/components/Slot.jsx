@@ -27,6 +27,7 @@ export default class Slot extends React.Component {
   _renderTaskAndTimeEditor() {
     return (
       <TaskSwitcher
+              tasks={this.props.tasks}
               task={this.props.task}
               start={this.props.start}
               withSave={true}

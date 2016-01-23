@@ -51,6 +51,7 @@ export default class Faffr extends React.Component {
   };
 
   render() {
+    let taskNames = TASKS.map(t => t.name);
     return (
       <div>
         <h1>Faffr</h1>
@@ -58,12 +59,14 @@ export default class Faffr extends React.Component {
           <Day slots={this.state.slots} tasks={TASKS} />
         </div>
         <TaskSwitcher onStartTask={this._startTask} tasks={TASKS.map(t => t.name)}/>
+        <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
         <hr />
         <div style={{width: '40%', height: 300, 'float': 'left', overflowY: 'scroll'}}>
           {this.state.slots.map(
             (s, i) => {
               return (
                 <Slot {...s}
+                tasks={taskNames}
                 onNoteChange={this._changeNote.bind(this, i)}
                 isEditable={this.state.isEditing === i}
                 showNote={i === this.state.slots.length - 1}
