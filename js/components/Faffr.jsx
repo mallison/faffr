@@ -55,10 +55,6 @@ export default class Faffr extends React.Component {
     return (
       <div>
         <h1>Faffr</h1>
-        <div style={{clear: 'both'}}>
-          <Day slots={this.state.slots} tasks={TASKS} />
-        </div>
-        <TaskSwitcher onStartTask={this._startTask} tasks={TASKS.map(t => t.name)}/>
         <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
         <hr />
         <div style={{width: '40%', height: 300, 'float': 'left', overflowY: 'scroll'}}>
@@ -80,7 +76,7 @@ export default class Faffr extends React.Component {
            )}
         </div>
         <div style={{width: '20%', height: 300, 'float': 'left'}}>
-          {this.state.slots.length ? <Visualiser slots={this.state.slots} /> : null}
+          <Day slots={this.state.slots} tasks={TASKS} />
         </div>
       </div>
     );
