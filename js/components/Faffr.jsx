@@ -5,6 +5,13 @@ import Slot from './Slot';
 import Visualiser from './Visualiser';
 import Day from './Day';
 
+const TASKS = [
+  {name: 'afk', colour: 'red'},
+  {name: 'lunch',colour: 'green'},
+  {name: 'admin', colour: 'blue'},
+  {name: 'coding', colour: 'yellow'}
+];
+
 export default class Faffr extends React.Component {
   state = {
     slots: [
@@ -47,9 +54,9 @@ export default class Faffr extends React.Component {
       <div>
         <h1>Faffr</h1>
         <div style={{clear: 'both'}}>
-          <Day slots={this.state.slots} />
+          <Day slots={this.state.slots} tasks={TASKS} />
         </div>
-        <TaskSwitcher onStartTask={this._startTask} />
+        <TaskSwitcher onStartTask={this._startTask} tasks={TASKS.map(t => t.name)}/>
         <hr />
         <div style={{width: '40%', height: 300, 'float': 'left', overflowY: 'scroll'}}>
           {this.state.slots.map(

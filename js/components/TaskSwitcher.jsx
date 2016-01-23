@@ -1,12 +1,5 @@
 import React, { PropTypes } from 'react';
 
-const TASKS = [
-  'afk',
-  'lunch',
-  'admin',
-  'coding'
-];
-
 export default class TaskSwitcher extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +34,7 @@ export default class TaskSwitcher extends React.Component {
                   onChange={this._onTaskChange}
                   >
             <option value="">-- Choose task --</option>
-            {TASKS.map(t => <option value={t}>{t}</option>)}
+            {this.props.tasks.map(t => <option value={t}>{t}</option>)}
           </select>
         </label>
         {' '}

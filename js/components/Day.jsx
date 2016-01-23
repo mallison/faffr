@@ -15,6 +15,8 @@ export default class Day extends React.Component {
       position: 'relative',
       marginLeft: 20
     };
+    this.taskColour = {};
+    this.props.tasks.forEach(t => this.taskColour[t.name] = t.colour);
     return (
       <div style={style}>
         {this._renderGrid()}
@@ -41,6 +43,7 @@ export default class Day extends React.Component {
       width: '100%',
       height: height,
       border: '1px solid black',
+      backgroundColor: this.taskColour[slot.task],
       position: 'absolute',
       top: top
     };
