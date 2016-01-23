@@ -7,6 +7,10 @@ export default class Day extends React.Component {
     width: 150
   };
 
+  state = {
+    showTooltips: {}
+  };
+
   render() {
     let style = {
       height: this.props.height,
@@ -45,14 +49,28 @@ export default class Day extends React.Component {
       border: '1px solid black',
       backgroundColor: this.taskColour[slot.task],
       position: 'absolute',
-      top: top
+      top: top,
+      overflowY: 'visible'
     };
     return (
-      <div style={style}>
+      <div style={style}
+              onMouseEnter={this._toggleTooltip.bind(this, i)}
+              onMouseLeave={this._toggleTooltip.bind(this, i)}
+              >
         {slot.task}
+        <aside style={{display: this.state.showTooltips[i] ? 'block' : 'none', position: 'absolute', zIndex: 100, backgroundColor: '#eee'}}
+                >
+          {slot.note}
+        </aside>
       </div>
     );
   };
+
+  _toggleTooltip(i) {
+    let showTooltips = this.state.showTooltips;
+    showTooltips[i] = !this.state.showTooltips[i];
+    this.setState({showTooltips});
+  }
 
   _renderGrid() {
     let cells = [];

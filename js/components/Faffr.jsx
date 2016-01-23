@@ -19,7 +19,13 @@ export default class Faffr extends React.Component {
       {
         start: new Date('2016-01-23 07:30'),
         task: 'workout',
-        note: ''
+        note: `
+3x10 pistol squats
+3x10 single leg Romanian deadlifts
+2x10 split squats
+3x10 hang knee raises
+1x2 minute abs
+        `
       },
       {
         start: new Date('2016-01-23 09:00'),
