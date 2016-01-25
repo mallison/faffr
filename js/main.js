@@ -4,49 +4,57 @@ import ReactDOM from 'react-dom';
 import FaffrContainer from './components/FaffrContainer';
 import Faffr from './components/Faffr';
 
-ReactDOM.render(<FaffrContainer />, document.getElementById('faffr'));
-// ReactDOM.render(<Faffr slots={[]} />, document.getElementById('faffr'));
+const SLOTS = [
+  {
+    duration: 45,
+    task: 'workout',
+    note: `
+    3x10 pistol squats
+    3x10 single leg Romanian deadlifts
+    2x10 split squats
+    3x10 hang knee raises
+    1x2 minute abs
+    `
+  },
+  {
+    duration: 120,
+    task: 'coding',
+    note: ''
+  },
+  {
+    duration: 15,
+    task: 'admin',
+    note: ''
+  },
+  {
+    duration: 30,
+    task: 'lunch',
+    note: ''
+  },
+  {
+    duration: 180,
+    task: 'coding',
+    note: ''
+  },
+  {
+    duration: 33,
+    task: 'workout',
+    note: ''
+  },
+  {
+    duration: 10,
+    task: 'afk',
+    note: ''
+  }
+];
 
-//     slots: [
-//       {
-//         start: new Date('2016-01-23 07:30'),
-//         task: 'workout',
-//         note: `
-// 3x10 pistol squats
-// 3x10 single leg Romanian deadlifts
-// 2x10 split squats
-// 3x10 hang knee raises
-// 1x2 minute abs
-//         `
-//       },
-//       {
-//         start: new Date('2016-01-23 09:00'),
-//         task: 'coding',
-//         note: ''
-//       },
-//       {
-//         start: new Date('2016-01-23 11:00'),
-//         task: 'admin',
-//         note: ''
-//       },
-//       {
-//         start: new Date('2016-01-23 12:30'),
-//         task: 'lunch',
-//         note: ''
-//       },
-//       {
-//         start: new Date('2016-01-23 13:20'),
-//         task: 'coding',
-//         note: ''
-//       },
-//       {
-//         start: new Date('2016-01-23 15:00'),
-//         task: 'workout',
-//         note: ''
-//       },
-//       {
-//         start: new Date('2016-01-23 16:15'),
-//         task: 'afk',
-//         note: ''
-//       }
-//     ],
+let start = new Date();
+start.setHours(7);
+start.setMinutes(30);
+let delta = 0;
+SLOTS.forEach(s => {
+  s.start = new Date(start.getTime() + delta * 60000);
+  delta += s.duration;
+});
+// ReactDOM.render(<FaffrContainer />, document.getElementById('faffr'));
+ReactDOM.render(<Faffr slots={SLOTS} />, document.getElementById('faffr'));

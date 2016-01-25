@@ -32,7 +32,9 @@ export default class Day extends React.Component {
   _renderSlot = (slot, i) => {
     let end;
     // TODO this next slot stuff is duplicated
-    if (i === this.props.slots.length - 1) {
+    if (slot.end) {
+      end = slot.end;
+    } else if (i === this.props.slots.length - 1) {
       end = new Date();
     } else {
       end = this.props.slots[i + 1].start;

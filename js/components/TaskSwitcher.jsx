@@ -16,10 +16,10 @@ export default class TaskSwitcher extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'inline-block'}}>
         <div className="form-group">
           <label>
-            Start time:{' '}
+            Time:{' '}
             <input
                     className="form-control"
                     ref={i => this._input = i}
