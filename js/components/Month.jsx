@@ -4,12 +4,12 @@ import Day from './Day';
 export default class Month extends React.Component {
   static defaultProps = {
     dayWidth: 100,
-    dayHeight: 150
+    dayHeight: 300
   };
 
   render() {
     let monthStyle = {
-      width: this.props.dayWidth * 7,
+      width: this.props.dayWidth * 7
     };
     let firstDayOffset = this._getOffset();
     return (
@@ -48,7 +48,9 @@ export default class Month extends React.Component {
       'float': 'left',
       border: isDayInMonth ? '1px solid black' : 'none'
     };
-    let slotsInDay = this.props.slots.filter(s => s.start.getDate() === dayNumber);
+    let slotsInDay = this.props.slots.filter(
+      s => s.start.getDate() === dayNumber
+    );
     return (
       <div style={dayStyle}>
         {isDayInMonth ? dayNumber : null}

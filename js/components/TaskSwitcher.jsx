@@ -16,38 +16,45 @@ export default class TaskSwitcher extends React.Component {
 
   render() {
     return (
-      <p>
-        <label>
-          Start time:{' '}
-          <input
-                  ref={i => this._input = i}
-                  type="time"
-                  value={this.state.start === null ? '' : this._getTime(this.state.start)}
-                  onChange={this._updateTime}
-          />
-        </label>
+      <div className="form-inline">
+        <div className="form-group">
+          <label>
+            Start time:{' '}
+            <input
+                    className="form-control"
+                    ref={i => this._input = i}
+                    type="time"
+                    value={this.state.start === null ? '' : this._getTime(this.state.start)}
+                    onChange={this._updateTime}
+            />
+          </label>
+        </div>
         {' '}
-        <label>
-          Task: {' '}
-          <select
-                  defaultValue={this.state.task}
-                  onChange={this._onTaskChange}
-                  >
-            <option value="">-- Choose task --</option>
-            {this.props.tasks.map(t => <option value={t}>{t}</option>)}
-          </select>
-        </label>
+        <div className="form-group">
+          <label>
+            Task: {' '}
+            <select
+                    className="form-control"
+                    defaultValue={this.state.task}
+                    onChange={this._onTaskChange}
+                    >
+              <option value="">-- Choose task --</option>
+              {this.props.tasks.map(t => <option value={t}>{t}</option>)}
+            </select>
+          </label>
+        </div>
         {' '}
         {this.props.withSave ?
          <button
+         className="btn btn-primary"
          onClick={this._onSave}
          >
-          Save
-        </button>
-        :
-        null
-        }
-      </p>
+         Save
+         </button>
+         :
+         null
+         }
+      </div>
     );
   }
 

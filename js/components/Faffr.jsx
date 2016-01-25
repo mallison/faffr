@@ -15,91 +15,53 @@ const TASKS = [
 ];
 
 export default class Faffr extends React.Component {
-  state = {
-    slots: [
-      {
-        start: new Date('2016-01-23 07:30'),
-        task: 'workout',
-        note: `
-3x10 pistol squats
-3x10 single leg Romanian deadlifts
-2x10 split squats
-3x10 hang knee raises
-1x2 minute abs
-        `
-      },
-      {
-        start: new Date('2016-01-23 09:00'),
-        task: 'coding',
-        note: ''
-      },
-      {
-        start: new Date('2016-01-23 11:00'),
-        task: 'admin',
-        note: ''
-      },
-      {
-        start: new Date('2016-01-23 12:30'),
-        task: 'lunch',
-        note: ''
-      },
-      {
-        start: new Date('2016-01-23 13:20'),
-        task: 'coding',
-        note: ''
-      },
-      {
-        start: new Date('2016-01-23 15:00'),
-        task: 'workout',
-        note: ''
-      },
-      {
-        start: new Date('2016-01-23 16:15'),
-        task: 'afk',
-        note: ''
-      }
-    ],
-    isEditing: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditing: null,
+      // TODO deepcopy? not supposed to mutate props
+      slots: this.props.slots
+    };
+  }
 
   componentDidMount() {
-    this._slots.scrollTop = this._slots.scrollHeight;
+    /* this._slots.scrollTop = this._slots.scrollHeight; */
+    this._autoSave = setInterval(
+      () => this.props.saveSlots(this.state.slots),
+      5000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._autoSave);
   }
 
   render() {
     let taskNames = TASKS.map(t => t.name);
+    let monthSlots = this.state.slots.filter(s => (s.start.getMonth() === 0) && (s.start.getFullYear() === 2015));
+    let slots = [...this.state.slots];
+    slots.reverse();
     return (
       <div>
         <h1>Faffr</h1>
-        <Month year={2016} month={0} slots={this.state.slots} tasks={TASKS} />
-        <hr style={{clear: 'both'}}/>
-        <div style={{width: '40%', height: 300, 'float': 'left'}}>
-          <div
-                  style={{height: '100%', overflowY: 'scroll'}}
-                  ref={r => this._slots = r}
-                  >
-          {this.state.slots.map(
-            (s, i) => {
-              return (
-                <Slot {...s}
-                tasks={taskNames}
-                onNoteChange={this._changeNote.bind(this, i)}
-                isEditable={this.state.isEditing === i}
-                showNote={i === this.state.slots.length - 1}
-                onClickEdit={this._markEditable.bind(this, i)}
-                onUpdateSlot={this._updateSlot.bind(this, i)}
-                onDeleteSlot={this._deleteSlot.bind(this, i)}
-                onInsertSlot={this._insertSlot.bind(this, i)}
-                />
-              );
-            }
-           )}
-          </div>
-          <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
-        </div>
-        <div style={{width: '20%', height: 300, 'float': 'left'}}>
-          <Day slots={this.state.slots} tasks={TASKS} />
-        </div>
+        <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
+        {slots.map(
+          (s, i) => {
+            let slotIndex = slots.length - 1 - i;
+            return (
+              <Slot {...s}
+              tasks={taskNames}
+              onNoteChange={this._changeNote.bind(this, slotIndex)}
+              isEditable={this.state.isEditing === slotIndex}
+              showNote={true}
+              onClickEdit={this._markEditable.bind(this, slotIndex)}
+              onUpdateSlot={this._updateSlot.bind(this, slotIndex)}
+              onDeleteSlot={this._deleteSlot.bind(this, slotIndex)}
+              onInsertSlot={this._insertSlot.bind(this, slotIndex)}
+              />
+            );
+          }
+         )}
       </div>
     );
   }
@@ -152,5 +114,5 @@ export default class Faffr extends React.Component {
       slots: slots,
       isEditing: index
     });
-  }
-}
+  }}
+      
