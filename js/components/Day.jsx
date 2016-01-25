@@ -60,13 +60,23 @@ export default class Day extends React.Component {
               onMouseLeave={this._toggleTooltip.bind(this, i)}
               >
         {slot.task}
-        <aside style={{display: this.state.showTooltips[i] ? 'block' : 'none', position: 'absolute', zIndex: 100, backgroundColor: '#eee'}}
-                >
-          {slot.note}
-        </aside>
+        {slot.note ? this._renderTooltip(slot, i) : null}
       </div>
     );
   };
+
+  _renderTooltip(slot, i) {
+    return (
+      <aside style={{width: '200%', display: this.state.showTooltips[i] ? 'block' : 'none', position: 'absolute', zIndex: 100}}
+              >
+        <div className="panel panel-default">
+          <div className="panel-body">
+            {slot.note.split('\n').map(l => [l, <br/>])}
+          </div>
+        </div>
+      </aside>
+    );
+  }
 
   _toggleTooltip(i) {
     let showTooltips = this.state.showTooltips;
