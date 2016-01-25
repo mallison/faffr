@@ -62,7 +62,7 @@ export default class Slot extends React.Component {
     return [
       <label htmlFor={this._id}>
         {this.props.start.toLocaleTimeString()}
-        {this.props.end ? [' - ', this.props.start.toLocaleTimeString()] : null}
+        {this.props.end ? [' - ', this.props.end.toLocaleTimeString()] : null}
         {' '}
         {this.props.task}
         {' '}
