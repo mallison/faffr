@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import FaffrContainer from './components/FaffrContainer';
 import Faffr from './components/Faffr';
 
 const SLOTS = [
   {
-    start: new Date('2016-01-23 07:30'),
+    duration: 45,
     task: 'workout',
     note: `
     3x10 pistol squats
@@ -16,35 +17,44 @@ const SLOTS = [
     `
   },
   {
-    start: new Date('2016-01-23 09:00'),
+    duration: 120,
     task: 'coding',
     note: ''
   },
   {
-    start: new Date('2016-01-23 11:00'),
+    duration: 15,
     task: 'admin',
     note: ''
   },
   {
-    start: new Date('2016-01-23 12:30'),
+    duration: 30,
     task: 'lunch',
     note: ''
   },
   {
-    start: new Date('2016-01-23 13:20'),
+    duration: 180,
     task: 'coding',
     note: ''
   },
   {
-    start: new Date('2016-01-23 15:00'),
+    duration: 33,
     task: 'workout',
     note: ''
   },
   {
-    start: new Date('2016-01-23 16:15'),
+    duration: 10,
     task: 'afk',
     note: ''
   }
 ];
 
+let start = new Date();
+start.setHours(7);
+start.setMinutes(30);
+let delta = 0;
+SLOTS.forEach(s => {
+  s.start = new Date(start.getTime() + delta * 60000);
+  delta += s.duration;
+});
+// ReactDOM.render(<FaffrContainer />, document.getElementById('faffr'));
 ReactDOM.render(<Faffr slots={SLOTS} />, document.getElementById('faffr'));

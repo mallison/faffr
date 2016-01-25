@@ -47,6 +47,7 @@ export default class Faffr extends React.Component {
         <div className="col-md-6">
           <div className="form-inline">
             <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
+            {this._renderStop()}
           </div>
           {slots.map(
             (s, i) => {
@@ -73,8 +74,30 @@ export default class Faffr extends React.Component {
     );
   }
 
+  _renderStop() {
+    let slots = this.state.slots;
+    if (slots.length && !slots[slots.length - 1].end) {
+      return [
+        ' Or ',
+        <div className="form-group">
+          <button
+                  className="btn btn-success"
+                  onClick={this._stop}
+                  ariaLabel="End"
+                  >
+            <span className="glyphicon glyphicon-stop" aria-hidden="true"></span>
+          </button>
+        </div>
+      ];
+    }
+    return null;
+  }
+
   _startTask = (task, startTime) => {
     let slots = this.state.slots;
+    if (slots.length > 1 && slots[slots.length - 1].end) {
+      delete slots[slots.length - 1].end;
+    }
     slots.push({
       start: startTime,
       task,
@@ -121,5 +144,16 @@ export default class Faffr extends React.Component {
       slots: slots,
       isEditing: index
     });
-  }}
+  }
 
+  _stop =() => {
+    let slots = this.state.slots;
+    if (slots.length) {
+      let lastSlot = slots[slots.length - 1];
+      lastSlot.end = new Date();
+    }
+    this.setState({
+      slots: slots,
+    });
+  };
+}
