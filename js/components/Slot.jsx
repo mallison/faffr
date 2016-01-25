@@ -44,7 +44,7 @@ export default class Slot extends React.Component {
         {this.props.task}
         {' '}
         <button
-                className="btn btn-default"
+                className="btn btn-primary btn-sm"
                 onClick={this.props.onClickEdit}
                 ariaLabel="Edit"
                 >
@@ -52,7 +52,7 @@ export default class Slot extends React.Component {
         </button>
         {' '}
         <button
-                className="btn btn-default"
+                className="btn btn-danger btn-sm"
                 onClick={this.props.onDeleteSlot}
                 ariaLabel="Delete"
                 >
@@ -60,7 +60,7 @@ export default class Slot extends React.Component {
         </button>
         {' '}
         <button
-                className="btn btn-default"
+                className="btn btn-success btn-sm"
                 onClick={this.props.onInsertSlot}
                 ariaLabel="Insert"
                 >
