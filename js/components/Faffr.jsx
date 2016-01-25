@@ -44,7 +44,9 @@ export default class Faffr extends React.Component {
     return (
       <div>
         <h1>Faffr</h1>
-        <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
+        <div className="form-inline">
+          <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
+        </div>
         {slots.map(
           (s, i) => {
             let slotIndex = slots.length - 1 - i;
