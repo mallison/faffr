@@ -16,7 +16,7 @@ export default class TaskSwitcher extends React.Component {
 
   render() {
     return (
-      <div className="form-inline">
+      <div>
         <div className="form-group">
           <label>
             Start time:{' '}
