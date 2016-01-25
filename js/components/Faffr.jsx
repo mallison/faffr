@@ -42,28 +42,33 @@ export default class Faffr extends React.Component {
     let slots = [...this.state.slots];
     slots.reverse();
     return (
-      <div>
+      <div className="row">
         <h1>Faffr</h1>
-        <div className="form-inline">
-          <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
+        <div className="col-md-6">
+          <div className="form-inline">
+            <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
+          </div>
+          {slots.map(
+            (s, i) => {
+              let slotIndex = slots.length - 1 - i;
+              return (
+                <Slot {...s}
+                tasks={taskNames}
+                onNoteChange={this._changeNote.bind(this, slotIndex)}
+                isEditable={this.state.isEditing === slotIndex}
+                isFocused={this.state.isEditing !== slotIndex && i === 0}
+                onClickEdit={this._markEditable.bind(this, slotIndex)}
+                onUpdateSlot={this._updateSlot.bind(this, slotIndex)}
+                onDeleteSlot={this._deleteSlot.bind(this, slotIndex)}
+                onInsertSlot={this._insertSlot.bind(this, slotIndex)}
+                />
+              );
+            }
+           )}
         </div>
-        {slots.map(
-          (s, i) => {
-            let slotIndex = slots.length - 1 - i;
-            return (
-              <Slot {...s}
-              tasks={taskNames}
-              onNoteChange={this._changeNote.bind(this, slotIndex)}
-              isEditable={this.state.isEditing === slotIndex}
-              isFocused={this.state.isEditing !== slotIndex && i === 0}
-              onClickEdit={this._markEditable.bind(this, slotIndex)}
-              onUpdateSlot={this._updateSlot.bind(this, slotIndex)}
-              onDeleteSlot={this._deleteSlot.bind(this, slotIndex)}
-              onInsertSlot={this._insertSlot.bind(this, slotIndex)}
-              />
-            );
-          }
-         )}
+        <div className="col-md-6">
+          <Day slots={this.state.slots} tasks={TASKS} />
+        </div>
       </div>
     );
   }
@@ -117,4 +122,4 @@ export default class Faffr extends React.Component {
       isEditing: index
     });
   }}
-      
+
