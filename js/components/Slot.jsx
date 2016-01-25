@@ -58,21 +58,13 @@ export default class Slot extends React.Component {
                 >
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
-        {' '}
-        <button
-                className="btn btn-success btn-sm"
-                onClick={this.props.onInsertSlot}
-                ariaLabel="Insert"
-                >
-          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
       </div>
     );
   }
 
   _renderNoteEditor() {
     return (
-      <form>
+      <div>
         <div className="form-group">
           <label className="sr-only">
             Note
@@ -87,7 +79,16 @@ export default class Slot extends React.Component {
                   onChange={e => this.props.onNoteChange(e.target.value)}
           />
         </div>
-      </form>
+        <div className="form-group">
+          <button
+                  className="btn btn-success btn-sm"
+                  onClick={this.props.onInsertSlot}
+                  ariaLabel="Insert"
+                  >
+            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        </div>
+      </div>
     );
   }
 
