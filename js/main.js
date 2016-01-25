@@ -8,13 +8,11 @@ const SLOTS = [
   {
     duration: 45,
     task: 'workout',
-    note: `
-    3x10 pistol squats
-    3x10 single leg Romanian deadlifts
-    2x10 split squats
-    3x10 hang knee raises
-    1x2 minute abs
-    `
+    note: `3x10 pistol squats
+3x10 single leg Romanian deadlifts
+2x10 split squats
+3x10 hang knee raises
+1x2 minute abs`
   },
   {
     duration: 120,
