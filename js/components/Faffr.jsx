@@ -53,7 +53,7 @@ export default class Faffr extends React.Component {
               tasks={taskNames}
               onNoteChange={this._changeNote.bind(this, slotIndex)}
               isEditable={this.state.isEditing === slotIndex}
-              showNote={true}
+              isFocused={this.state.isEditing !== slotIndex && i === 0}
               onClickEdit={this._markEditable.bind(this, slotIndex)}
               onUpdateSlot={this._updateSlot.bind(this, slotIndex)}
               onDeleteSlot={this._deleteSlot.bind(this, slotIndex)}

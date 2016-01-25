@@ -4,7 +4,7 @@ import TaskSwitcher from './TaskSwitcher';
 
 export default class Slot extends React.Component {
   componentDidMount() {
-    if (this._note) {
+    if (this.props.isFocused && this._note) {
       this._note.focus();
     }
   }
@@ -16,10 +16,7 @@ export default class Slot extends React.Component {
          this._renderTaskAndTimeEditor() :
          this._renderTaskAndTime()
          }
-        {this.props.showNote ?
-         this._renderNoteEditor() :
-         this._renderNote()
-         }
+        {this._renderNoteEditor()}
       </div>
     );
   }
@@ -90,9 +87,5 @@ export default class Slot extends React.Component {
         </div>
       </div>
     );
-  }
-
-  _renderNote() {
-    return <p>{this.props.note}</p>;
   }
 }
