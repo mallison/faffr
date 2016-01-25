@@ -38,42 +38,56 @@ export default class Slot extends React.Component {
 
   _renderTaskAndTime() {
     return (
-      <p>
+      <div className="form-inline">
         {this.props.start.toLocaleTimeString()}
         {' '}
         {this.props.task}
         {' '}
         <button
+                className="btn btn-default"
                 onClick={this.props.onClickEdit}
+                ariaLabel="Edit"
                 >
-          Edit
+          <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
         </button>
         {' '}
         <button
+                className="btn btn-default"
                 onClick={this.props.onDeleteSlot}
+                ariaLabel="Delete"
                 >
-          Delete
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
         {' '}
         <button
+                className="btn btn-default"
                 onClick={this.props.onInsertSlot}
+                ariaLabel="Insert"
                 >
-          Insert
+          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
-      </p>
+      </div>
     );
   }
 
   _renderNoteEditor() {
     return (
-      <textarea
-              placeholder="Add note"
-              ref={t => this._note = t}
-              rows={4}
-              cols={70}
-              value={this.props.note}
-              onChange={e => this.props.onNoteChange(e.target.value)}
-      />
+      <form>
+        <div className="form-group">
+          <label className="sr-only">
+            Note
+          </label>
+          <textarea
+                  className="form-control"
+                  placeholder="Add note"
+                  ref={t => this._note = t}
+                  rows={4}
+                  cols={70}
+                  value={this.props.note}
+                  onChange={e => this.props.onNoteChange(e.target.value)}
+          />
+        </div>
+      </form>
     );
   }
 
