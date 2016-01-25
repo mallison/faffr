@@ -5,26 +5,33 @@ import Faffr from './Faffr';
 
 export default class FaffrContainer extends React.Component {
   state = {
-    slots: []
+    slots: null
   };
 
   componentDidMount() {
-    request.get('slots.json').end((err, res) => this._saveSlots(res.body));
+    request.get('/slots').end((err, res) => this._initSlots(res.body));
   }
 
-  _saveSlots(slots) {
-    slots = slots.map(s => ({
-      task: s[1][0],
-      start: new Date(s[0])
-    }));
+  _initSlots(slots) {
+    /* this is for slots from timesheet.py */
+    /* slots = slots.map(s => ({
+       task: s[1][0],
+       start: new Date(s[0])
+       })); */
+    slots.forEach(s => (s.start = new Date(s.start)));
     this.setState({slots});
   }
-
   render() {
-    console.log(this.state.slots);
-    if (this.state.slots.length) {
-      return <Faffr slots={this.state.slots} />;
+    if (this.state.slots !== null) {
+      return <Faffr slots={this.state.slots} saveSlots={this._saveSlots} />;
     }
     return null;
   }
+
+  _saveSlots = (slots) => {
+    request.post('/slots')
+      .send(slots)
+      .end();
+      // TODO .end((err, res)
+  };
 }

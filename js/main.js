@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import FaffrContainer from './components/FaffrContainer';
+import Faffr from './components/Faffr';
 
 ReactDOM.render(<FaffrContainer />, document.getElementById('faffr'));
+// ReactDOM.render(<Faffr slots={[]} />, document.getElementById('faffr'));
 
 //     slots: [
 //       {
