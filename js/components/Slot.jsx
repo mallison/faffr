@@ -3,11 +3,11 @@ import React, { PropTypes } from 'react';
 import TaskSwitcher from './TaskSwitcher';
 
 export default class Slot extends React.Component {
-  componentDidMount() {
-    if (this._note) {
-      this._note.focus();
-    }
-  }
+  /* componentDidMount() {
+     if (this._note) {
+     this._note.focus();
+     }
+     } */
 
   render() {
     return (
