@@ -7,10 +7,14 @@ import Day from './Day';
 import Month from './Month';
 
 const TASKS = [
-  {name: 'afk', colour: 'red'},
-  {name: 'lunch', colour: 'green'},
   {name: 'admin', colour: 'blue'},
+  {name: 'afk', colour: 'red'},
   {name: 'coding', colour: 'yellow'},
+  {name: 'coffee', colour: 'brown'},
+  {name: 'eat', colour: 'green'},
+  {name: 'misc', colour: '#ccc'},
+  {name: 'therapy', colour: 'cyan'},
+  {name: 'tv', colour: 'orange'},
   {name: 'workout', colour: 'purple'}
 ];
 
