@@ -71,8 +71,11 @@ export default class Faffr extends React.Component {
             }
            )}
         </div>
-        <div className="col-md-6">
+        <div className="col-md-3">
           <Day slots={this.state.slots} tasks={TASKS} />
+        </div>
+        <div className="col-md-3">
+          <Visualiser slots={this.state.slots} />
         </div>
       </div>
     );
