@@ -54,6 +54,6 @@ SLOTS.forEach(s => {
   s.start = new Date(start.getTime() + delta * 60000);
   delta += s.duration;
 });
-//ReactDOM.render(<Faffr slots={SLOTS} />, document.getElementById('faffr'));
+ReactDOM.render(<Faffr slots={SLOTS} />, document.getElementById('faffr'));
 
-ReactDOM.render(<FaffrContainer />, document.getElementById('faffr'));
+//ReactDOM.render(<FaffrContainer />, document.getElementById('faffr'));
