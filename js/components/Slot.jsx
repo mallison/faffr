@@ -14,6 +14,14 @@ export default class Slot extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // TODO this is hacky. web suggests other solution might be off page element
+    // to track height of content. Other implementations suggest it's not this simple
+    // either!
+    this._note.style.height = '1px';
+    this._note.style.height = `${this._note.scrollHeight}px`;
+  }
+
   render() {
     return (
       <div>
