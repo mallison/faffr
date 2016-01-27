@@ -12,6 +12,7 @@ const TASKS = [
   {name: 'coding', colour: 'yellow'},
   {name: 'coffee', colour: 'brown'},
   {name: 'eat', colour: 'green'},
+  {name: 'job', colour: '#cab'},
   {name: 'misc', colour: '#ccc'},
   {name: 'therapy', colour: 'cyan'},
   {name: 'tv', colour: 'orange'},
@@ -43,6 +44,7 @@ export default class Faffr extends React.Component {
   render() {
     let taskNames = TASKS.map(t => t.name);
     let monthSlots = this.state.slots.filter(s => (s.start.getMonth() === 0) && (s.start.getFullYear() === 2015));
+    let todaysSlots = this.state.slots.filter(s => s.start.toDateString() === new Date().toDateString());
     let slots = [...this.state.slots];
     slots.reverse();
     return (
@@ -56,6 +58,10 @@ export default class Faffr extends React.Component {
           {slots.map(
             (s, i) => {
               let slotIndex = slots.length - 1 - i;
+              // TODO temp hack to limit to today's slots
+              if (s.start.toDateString() !== new Date().toDateString()) {
+                return null;
+              }
               return (
                 <Slot {...s}
                 tasks={taskNames}
@@ -72,10 +78,10 @@ export default class Faffr extends React.Component {
            )}
         </div>
         <div className="col-md-3">
-          <Day slots={this.state.slots} tasks={TASKS} />
+          <Day slots={todaysSlots} tasks={TASKS} />
         </div>
         <div className="col-md-3">
-          <Visualiser slots={this.state.slots} />
+          {todaysSlots.length ? <Visualiser slots={todaysSlots} /> : null}
         </div>
       </div>
     );
