@@ -18,7 +18,12 @@ export default class FaffrContainer extends React.Component {
        task: s[1][0],
        start: new Date(s[0])
        })); */
-    slots.forEach(s => (s.start = new Date(s.start)));
+    slots.forEach(s => {
+      s.start = new Date(s.start);
+      if (s.end) {
+        s.end = new Date(s.end);
+      }
+    });
     this.setState({slots});
   }
   render() {
