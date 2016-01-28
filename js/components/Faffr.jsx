@@ -51,7 +51,7 @@ export default class Faffr extends React.Component {
     return (
       <div className="row">
         <h1>Faffr</h1>
-        <Week slots={slots} tasks={TASKS} />
+        <Week slots={this.state.slots} tasks={TASKS} />
         <div className="col-md-6">
           <div className="form-inline">
             <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
