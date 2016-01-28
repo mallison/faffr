@@ -19,7 +19,9 @@ export default class Visualiser extends React.Component {
     let totalDuration = 0;
     slots.forEach((s, i) => {
       let end;
-      if (i === slots.length - 1) {
+      if (s.end) {
+        end = s.end;
+      } else if (i === slots.length - 1) {
         end = new Date();
       } else {
         end = slots[i + 1].start;

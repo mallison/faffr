@@ -5,6 +5,7 @@ import Slot from './Slot';
 import Visualiser from './Visualiser';
 import Day from './Day';
 import Month from './Month';
+import Week from './Week';
 
 const TASKS = [
   {name: 'admin', colour: 'blue'},
@@ -12,6 +13,7 @@ const TASKS = [
   {name: 'coding', colour: 'yellow'},
   {name: 'coffee', colour: 'brown'},
   {name: 'eat', colour: 'green'},
+  {name: 'job', colour: '#cab'},
   {name: 'misc', colour: '#ccc'},
   {name: 'therapy', colour: 'cyan'},
   {name: 'tv', colour: 'orange'},
@@ -43,11 +45,14 @@ export default class Faffr extends React.Component {
   render() {
     let taskNames = TASKS.map(t => t.name);
     let monthSlots = this.state.slots.filter(s => (s.start.getMonth() === 0) && (s.start.getFullYear() === 2015));
+    let todaysSlots = this.state.slots.filter(s => s.start.toDateString() === new Date().toDateString());
     let slots = [...this.state.slots];
     slots.reverse();
     return (
-      <div className="row">
+      <div className="container">
         <h1>Faffr</h1>
+        <Week slots={this.state.slots} tasks={TASKS} />
+        <div className="row">
         <div className="col-md-6">
           <div className="form-inline">
             <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
@@ -56,6 +61,10 @@ export default class Faffr extends React.Component {
           {slots.map(
             (s, i) => {
               let slotIndex = slots.length - 1 - i;
+              // TODO temp hack to limit to today's slots
+              if (s.start.toDateString() !== new Date().toDateString()) {
+                return null;
+              }
               return (
                 <Slot {...s}
                 tasks={taskNames}
@@ -72,10 +81,8 @@ export default class Faffr extends React.Component {
            )}
         </div>
         <div className="col-md-3">
-          <Day slots={this.state.slots} tasks={TASKS} />
+          {todaysSlots.length ? <Visualiser slots={todaysSlots} /> : null}
         </div>
-        <div className="col-md-3">
-          <Visualiser slots={this.state.slots} />
         </div>
       </div>
     );
