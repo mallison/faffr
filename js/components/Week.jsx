@@ -10,8 +10,10 @@ export default class Week extends React.Component {
       week.push(new Date(mondayThisWeek.getTime() + i * 24 * 60 * 60 * 1000));
     }
     return (
-      <div>
-        {week.map(day => this._renderDay(day))}
+      <div className="row">
+        <div className="col-md-12">
+          {week.map(day => this._renderDay(day))}
+        </div>
       </div>
     );
   }
@@ -25,7 +27,7 @@ export default class Week extends React.Component {
       )
     );
     return (
-      <div style={{'float': 'left'}}>
+      <div style={{'float': 'left', marginBottom: 25}}>
         <p><strong>{day.toDateString().slice(0, 10)}</strong></p>
         <Day slots={slotsInDay} tasks={this.props.tasks} width={125} />
       </div>

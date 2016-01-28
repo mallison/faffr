@@ -49,9 +49,10 @@ export default class Faffr extends React.Component {
     let slots = [...this.state.slots];
     slots.reverse();
     return (
-      <div className="row">
+      <div className="container">
         <h1>Faffr</h1>
         <Week slots={this.state.slots} tasks={TASKS} />
+        <div className="row">
         <div className="col-md-6">
           <div className="form-inline">
             <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
@@ -81,6 +82,7 @@ export default class Faffr extends React.Component {
         </div>
         <div className="col-md-3">
           {todaysSlots.length ? <Visualiser slots={todaysSlots} /> : null}
+        </div>
         </div>
       </div>
     );
