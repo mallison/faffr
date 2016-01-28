@@ -26,8 +26,8 @@ export default class Week extends React.Component {
     );
     return (
       <div style={{'float': 'left'}}>
-        <h3>{day.toDateString()}</h3>
-        <Day slots={slotsInDay} tasks={this.props.tasks} />
+        <p><strong>{day.toDateString().slice(0, 10)}</strong></p>
+        <Day slots={slotsInDay} tasks={this.props.tasks} width={125} />
       </div>
     );
   }
