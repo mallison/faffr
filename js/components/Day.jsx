@@ -35,7 +35,12 @@ export default class Day extends React.Component {
     if (slot.end) {
       end = slot.end;
     } else if (i === this.props.slots.length - 1) {
-      end = new Date();
+      let now = new Date();
+      if (slot.start.getDate() === now.getDate()) {
+        end = now;
+      } else {
+        end = new Date(slot.start.getFullYear(), slot.start.getMonth(), slot.start.getDate() + 1);
+      }       
     } else {
       end = this.props.slots[i + 1].start;
     }
