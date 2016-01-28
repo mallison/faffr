@@ -80,9 +80,6 @@ export default class Faffr extends React.Component {
            )}
         </div>
         <div className="col-md-3">
-          <Day slots={todaysSlots} tasks={TASKS} />
-        </div>
-        <div className="col-md-3">
           {todaysSlots.length ? <Visualiser slots={todaysSlots} /> : null}
         </div>
       </div>
