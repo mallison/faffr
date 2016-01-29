@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import request from 'superagent';
 
 import Faffr from './Faffr';
-import { dateFromISODateString } from '../utils/dateTime.js';
+import * as slot from '../slot';
 
 export default class FaffrContainer extends React.Component {
   state = {
@@ -13,18 +13,8 @@ export default class FaffrContainer extends React.Component {
     request.get('/slots').end((err, res) => this._initSlots(res.body));
   }
 
-  _initSlots(slots) {
-    /* this is for slots from timesheet.py */
-    /* slots = slots.map(s => ({
-       task: s[1][0],
-       start: new Date(s[0])
-       })); */
-    slots.forEach(s => {
-      s.start = dateFromISODateString(s.start);
-      if (s.end) {
-        s.end = dateFromISODateString(s.end);
-      }
-    });
+  _initSlots(slotsFromAPI) {
+    let slots = slot.initLoadedSlots(slotsFromAPI);
     this.setState({slots});
   }
   render() {
@@ -38,6 +28,7 @@ export default class FaffrContainer extends React.Component {
     request.post('/slots')
       .send(slots)
       .end();
-      // TODO .end((err, res)
+    // TODO .end((err, res)
+    this.setState({slots: slots});
   };
 }
