@@ -45,7 +45,7 @@ export default class Faffr extends React.Component {
 
   render() {
     let taskNames = TASKS.map(t => t.name);
-    let monthSlots = this.state.slots.filter(s => isDateInMonth(s.start, 2015, 0));
+    let monthSlots = this.state.slots.filter(s => isDateInMonth(s.start, 2016, 0));
     let todaysSlots = this.state.slots.filter(s => isDateInDay(s.start, new Date()));
     let slots = [...this.state.slots];
     slots.reverse();
@@ -85,6 +85,7 @@ export default class Faffr extends React.Component {
           {todaysSlots.length ? <Visualiser slots={todaysSlots} /> : null}
         </div>
         </div>
+        <Month slots={monthSlots} tasks={TASKS} year={2016} month={0} />
       </div>
     );
   }
