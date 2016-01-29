@@ -29,9 +29,7 @@ export default class Month extends React.Component {
 
   _getOffset() {
     let firstDayOfMonth = new Date(this.props.year, this.props.month, 1);
-    // TODO oops, use getDay!!
-    let dayName = firstDayOfMonth.toString().slice(0, 3);
-    return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(dayName);
+    return firstDayOfMonth.getDay();
   }
 
   _renderDay(day, firstDayOffset) {
