@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import * as dateTime from '../utils/dateTime';
+
 export default class Day extends React.Component {
   static defaultProps = {
     startTime: 6,
@@ -36,19 +38,19 @@ export default class Day extends React.Component {
       end = slot.end;
     } else if (i === this.props.slots.length - 1) {
       let now = new Date();
-      if (slot.start.getDate() === now.getDate()) {
+      if (dateTime.isDateInDay(slot.start, now)) {
         end = now;
       } else {
-        end = new Date(slot.start.getFullYear(), slot.start.getMonth(), slot.start.getDate() + 1);
-      }       
+        end = dateTime.getEndOfDay(slot.start);
+      }
     } else {
       end = this.props.slots[i + 1].start;
     }
     //////////////////////////////////////////////////
-    let pixelsPerMinute = this.props.height / (60 * (24 - this.props.startTime));
-    let startInMinutes = 60 * (slot.start.getHours() - this.props.startTime) + slot.start.getMinutes();
+    let pixelsPerMinute = this.props.height / dateTime.getMinutesInDayAfterHour(this.props.startTime);
+    let startInMinutes = dateTime.getDeltaFromHourInMinutes(this.props.startTime, slot.start);
     let top = startInMinutes * pixelsPerMinute;
-    let durationInMinutes = (end - slot.start) / (60 * 1000);
+    let durationInMinutes = dateTime.getDeltaInMinutes(slot.start, end);
     let height = durationInMinutes * pixelsPerMinute;
     let style = {
       width: '100%',

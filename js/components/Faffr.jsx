@@ -6,6 +6,7 @@ import Visualiser from './Visualiser';
 import Day from './Day';
 import Month from './Month';
 import Week from './Week';
+import { isDateInMonth, isDateInDay } from '../utils/dateTime';
 
 const TASKS = [
   {name: 'admin', colour: 'blue'},
@@ -44,8 +45,8 @@ export default class Faffr extends React.Component {
 
   render() {
     let taskNames = TASKS.map(t => t.name);
-    let monthSlots = this.state.slots.filter(s => (s.start.getMonth() === 0) && (s.start.getFullYear() === 2015));
-    let todaysSlots = this.state.slots.filter(s => s.start.toDateString() === new Date().toDateString());
+    let monthSlots = this.state.slots.filter(s => isDateInMonth(s.start, 2015, 0));
+    let todaysSlots = this.state.slots.filter(s => isDateInDay(s.start, new Date()));
     let slots = [...this.state.slots];
     slots.reverse();
     return (
