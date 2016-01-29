@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Day from './Day';
+import { getDaysOfMonth } from '../calendar.js';
 
 export default class Month extends React.Component {
   static defaultProps = {
@@ -11,49 +12,29 @@ export default class Month extends React.Component {
     let monthStyle = {
       width: this.props.dayWidth * 7
     };
-    let firstDayOffset = this._getOffset();
     return (
       <div style={monthStyle}>
-        {(() => {
-          let days = [];
-          for (let day = 1; day <= 38; day += 1) {
-            days.push(
-              this._renderDay(day, firstDayOffset)
-            );
-          }
-          return days;
-        })()}
+        {getDaysOfMonth(this.props.year, this.props.month).map(
+          this._renderDay
+        )}
       </div>
     );
   }
 
-  _getOffset() {
-    let firstDayOfMonth = new Date(this.props.year, this.props.month, 1);
-    return firstDayOfMonth.getDay();
-  }
-
-  _renderDay(day, firstDayOffset) {
-    let dayNumber = day - firstDayOffset;
-    let dayDate = new Date(
-      this.props.year,
-      this.props.month,
-      dayNumber
-    );
-    let dayMonthNumber = dayDate.getMonth();
-    let isDayInMonth = dayMonthNumber === this.props.month;
+  _renderDay = (day) => {
     let dayStyle = {
       width: this.props.dayWidth,
       height: this.props.dayHeight,
       'float': 'left',
-      border: isDayInMonth ? '1px solid black' : 'none'
+      border: day.isDayInMonth ? '1px solid black' : 'none'
     };
     let slotsInDay = this.props.slots.filter(
-      s => s.start.getDate() === dayNumber
+      s => s.start.getDate() === day.number
     );
     return (
       <div style={dayStyle}>
-        {isDayInMonth ? dayNumber : null}
-        {isDayInMonth && slotsInDay.length ? <Day
+        {day.isDayInMonth ? day.number : null}
+        {day.isDayInMonth && slotsInDay.length ? <Day
          slots={slotsInDay}
          tasks={this.props.tasks}
          width={this.props.dayWidth - 20}
@@ -61,5 +42,5 @@ export default class Month extends React.Component {
          /> : null}
       </div>
     );
-  }
+  };
 }
