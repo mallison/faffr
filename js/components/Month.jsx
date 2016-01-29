@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Day from './Day';
-import { getDaysOfMonth } from '../calendar.js';
+import { getDaysOfMonth } from '../calendar';
+import * as slot from '../slot';
 
 export default class Month extends React.Component {
   static defaultProps = {
@@ -28,14 +29,13 @@ export default class Month extends React.Component {
       'float': 'left',
       border: day.isDayInMonth ? '1px solid black' : 'none'
     };
-    let slotsInDay = this.props.slots.filter(
-      s => s.start.getDate() === day.number
-    );
+    let slotsInDay = slot.getSlotsInDay(this.props.slots, day.date);
     return (
       <div style={dayStyle}>
         {day.isDayInMonth ? day.number : null}
         {day.isDayInMonth && slotsInDay.length ? <Day
          slots={slotsInDay}
+         day={day.date}
          tasks={this.props.tasks}
          width={this.props.dayWidth - 20}
          height={this.props.dayHeight - 20}
