@@ -15,6 +15,9 @@ export default class Visualiser extends React.Component {
 
   render() {
     let slots = this.props.slots;
+    if (!slots.length) {
+      return null;
+    }
     let durations = {};
     let totalDuration = 0;
     slots.forEach((s, i) => {
