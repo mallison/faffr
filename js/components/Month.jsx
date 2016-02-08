@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import Day from './Day';
+import { getDaysOfMonth } from '../calendar';
+import * as slot from '../slot';
 
 export default class Month extends React.Component {
   static defaultProps = {
@@ -11,57 +13,34 @@ export default class Month extends React.Component {
     let monthStyle = {
       width: this.props.dayWidth * 7
     };
-    let firstDayOffset = this._getOffset();
     return (
       <div style={monthStyle}>
-        {(() => {
-          let days = [];
-          for (let day = 1; day <= 38; day += 1) {
-            days.push(
-              this._renderDay(day, firstDayOffset)
-            );
-          }
-          return days;
-        })()}
+        {getDaysOfMonth(this.props.year, this.props.month).map(
+          this._renderDay
+        )}
       </div>
     );
   }
 
-  _getOffset() {
-    let firstDayOfMonth = new Date(this.props.year, this.props.month, 1);
-    // TODO oops, use getDay!!
-    let dayName = firstDayOfMonth.toString().slice(0, 3);
-    return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(dayName);
-  }
-
-  _renderDay(day, firstDayOffset) {
-    let dayNumber = day - firstDayOffset;
-    let dayDate = new Date(
-      this.props.year,
-      this.props.month,
-      dayNumber
-    );
-    let dayMonthNumber = dayDate.getMonth();
-    let isDayInMonth = dayMonthNumber === this.props.month;
+  _renderDay = (day) => {
     let dayStyle = {
       width: this.props.dayWidth,
       height: this.props.dayHeight,
       'float': 'left',
-      border: isDayInMonth ? '1px solid black' : 'none'
+      border: day.isDayInMonth ? '1px solid black' : 'none'
     };
-    let slotsInDay = this.props.slots.filter(
-      s => s.start.getDate() === dayNumber
-    );
+    let slotsInDay = slot.getSlotsInDay(this.props.slots, day.date);
     return (
       <div style={dayStyle}>
-        {isDayInMonth ? dayNumber : null}
-        {isDayInMonth && slotsInDay.length ? <Day
+        {day.isDayInMonth ? day.number : null}
+        {day.isDayInMonth && slotsInDay.length ? <Day
          slots={slotsInDay}
+         day={day.date}
          tasks={this.props.tasks}
          width={this.props.dayWidth - 20}
          height={this.props.dayHeight - 20}
          /> : null}
       </div>
     );
-  }
+  };
 }

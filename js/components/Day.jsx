@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 
+import * as dateTime from '../utils/dateTime';
+import * as slotUtils from '../slot';
+
 export default class Day extends React.Component {
   static defaultProps = {
     startTime: 6,
@@ -21,34 +24,35 @@ export default class Day extends React.Component {
     };
     this.taskColour = {};
     this.props.tasks.forEach(t => this.taskColour[t.name] = t.colour);
+    let slotsInDay = slotUtils.getSlotsInDay(this.props.slots, this.props.day);
     return (
       <div style={style}>
         {this._renderGrid()}
-        {this.props.slots.map(this._renderSlot)}
+        {slotsInDay.map((slot, i) => this._renderSlot(slotsInDay, slot, i))}
       </div>
     );
   }
 
-  _renderSlot = (slot, i) => {
+  _renderSlot = (slots, slot, i) => {
     let end;
     // TODO this next slot stuff is duplicated
     if (slot.end) {
       end = slot.end;
-    } else if (i === this.props.slots.length - 1) {
+    } else if (i === slots.length - 1) {
       let now = new Date();
-      if (slot.start.getDate() === now.getDate()) {
+      if (dateTime.isDateInDay(slot.start, now)) {
         end = now;
       } else {
-        end = new Date(slot.start.getFullYear(), slot.start.getMonth(), slot.start.getDate() + 1);
-      }       
+        end = dateTime.getEndOfDay(slot.start);
+      }
     } else {
-      end = this.props.slots[i + 1].start;
+      end = slots[i + 1].start;
     }
     //////////////////////////////////////////////////
-    let pixelsPerMinute = this.props.height / (60 * (24 - this.props.startTime));
-    let startInMinutes = 60 * (slot.start.getHours() - this.props.startTime) + slot.start.getMinutes();
+    let pixelsPerMinute = this.props.height / dateTime.getMinutesInDayAfterHour(this.props.startTime);
+    let startInMinutes = dateTime.getDeltaFromHourInMinutes(this.props.startTime, slot.start);
     let top = startInMinutes * pixelsPerMinute;
-    let durationInMinutes = (end - slot.start) / (60 * 1000);
+    let durationInMinutes = dateTime.getDeltaInMinutes(slot.start, end);
     let height = durationInMinutes * pixelsPerMinute;
     let style = {
       width: '100%',

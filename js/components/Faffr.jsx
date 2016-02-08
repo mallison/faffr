@@ -3,9 +3,9 @@ import React, { PropTypes } from 'react';
 import TaskSwitcher from './TaskSwitcher';
 import Slot from './Slot';
 import Visualiser from './Visualiser';
-import Day from './Day';
 import Month from './Month';
 import Week from './Week';
+import * as slot from '../slot';
 
 const TASKS = [
   {name: 'admin', colour: 'blue'},
@@ -44,8 +44,6 @@ export default class Faffr extends React.Component {
 
   render() {
     let taskNames = TASKS.map(t => t.name);
-    let monthSlots = this.state.slots.filter(s => (s.start.getMonth() === 0) && (s.start.getFullYear() === 2015));
-    let todaysSlots = this.state.slots.filter(s => s.start.toDateString() === new Date().toDateString());
     let slots = [...this.state.slots];
     slots.reverse();
     return (
@@ -81,9 +79,10 @@ export default class Faffr extends React.Component {
            )}
         </div>
         <div className="col-md-3">
-          {todaysSlots.length ? <Visualiser slots={todaysSlots} /> : null}
+          <Visualiser slots={slot.getSlotsInDay(this.state.slots, new Date())} />
         </div>
         </div>
+        <Month slots={this.state.slots} tasks={TASKS} year={2016} month={0} />
       </div>
     );
   }

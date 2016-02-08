@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import request from 'superagent';
 
 import Faffr from './Faffr';
+import { dateFromISODateString } from '../utils/dateTime.js';
 
 export default class FaffrContainer extends React.Component {
   state = {
@@ -19,9 +20,9 @@ export default class FaffrContainer extends React.Component {
        start: new Date(s[0])
        })); */
     slots.forEach(s => {
-      s.start = new Date(s.start);
+      s.start = dateFromISODateString(s.start);
       if (s.end) {
-        s.end = new Date(s.end);
+        s.end = dateFromISODateString(s.end);
       }
     });
     this.setState({slots});
