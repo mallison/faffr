@@ -7,7 +7,7 @@ const initialState = SLOTS;  // for debug
 // TODO generalise this to any state which is a list of objects
 // TODO use React.addons.update or Immutable.js instead of shallow copies with spread operator?
 // TODO better data structure than list for this?
-export default function reduce(state = [], action) {
+export default function reduce(state, action) {
   if (typeof state === 'undefined') {
     return initialState;
   }
