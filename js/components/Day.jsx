@@ -64,7 +64,7 @@ export default class Day extends React.Component {
       overflowY: 'visible'
     };
     return (
-      <div style={style}
+      <div style={style} key={slot.id}
               onMouseEnter={this._toggleTooltip.bind(this, i)}
               onMouseLeave={this._toggleTooltip.bind(this, i)}
               >
@@ -117,7 +117,7 @@ export default class Day extends React.Component {
       left: -20
     };
     return (
-      <div style={style}>
+      <div style={style} key={hour}>
         <small>{hour}</small>
       </div>
     );

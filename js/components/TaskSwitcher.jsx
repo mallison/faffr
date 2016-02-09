@@ -39,7 +39,7 @@ export default class TaskSwitcher extends React.Component {
                     onChange={this._onTaskChange}
                     >
               <option value="">-- Choose task --</option>
-              {this.props.tasks.map(t => <option value={t}>{t}</option>)}
+              {this.props.tasks.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </label>
         </div>

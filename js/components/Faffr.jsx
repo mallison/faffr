@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
 
-import TaskSwitcher from './TaskSwitcher';
-import Slot from './Slot';
 import Visualiser from './Visualiser';
 import Month from './Month';
 import Week from './Week';
+import Slots from './Slots';
 import * as slot from '../slot';
 
 const TASKS = [
@@ -21,152 +20,22 @@ const TASKS = [
 ];
 
 export default class Faffr extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditing: null,
-      // TODO deepcopy? not supposed to mutate props
-      slots: this.props.slots
-    };
-  }
-
-  componentDidMount() {
-    /* this._slots.scrollTop = this._slots.scrollHeight; */
-    this._autoSave = setInterval(
-      () => this.props.saveSlots(this.state.slots),
-      5000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this._autoSave);
-  }
-
   render() {
-    let taskNames = TASKS.map(t => t.name);
-    let slots = [...this.state.slots];
-    slots.reverse();
+    let today = new Date();
     return (
       <div className="container">
         <h1>Faffr</h1>
-        <Week slots={this.state.slots} tasks={TASKS} />
+        <Week slots={this.props.slots} tasks={TASKS} />
         <div className="row">
-        <div className="col-md-6">
-          <div className="form-inline">
-            <TaskSwitcher onStartTask={this._startTask} tasks={taskNames}/>
-            {this._renderStop()}
+          <div className="col-md-6">
+            <Slots {...this.props} tasks={TASKS} />
           </div>
-          {slots.map(
-            (s, i) => {
-              let slotIndex = slots.length - 1 - i;
-              // TODO temp hack to limit to today's slots
-              if (s.start.toDateString() !== new Date().toDateString()) {
-                return null;
-              }
-              return (
-                <Slot {...s}
-                tasks={taskNames}
-                onNoteChange={this._changeNote.bind(this, slotIndex)}
-                isEditable={this.state.isEditing === slotIndex}
-                isFocused={this.state.isEditing !== slotIndex && i === 0}
-                onClickEdit={this._markEditable.bind(this, slotIndex)}
-                onUpdateSlot={this._updateSlot.bind(this, slotIndex)}
-                onDeleteSlot={this._deleteSlot.bind(this, slotIndex)}
-                onInsertSlot={this._insertSlot.bind(this, slotIndex)}
-                />
-              );
-            }
-           )}
+          <div className="col-md-3">
+            <Visualiser slots={slot.getSlotsInDay(this.props.slots, new Date())} />
+          </div>
         </div>
-        <div className="col-md-3">
-          <Visualiser slots={slot.getSlotsInDay(this.state.slots, new Date())} />
-        </div>
-        </div>
-        <Month slots={this.state.slots} tasks={TASKS} year={2016} month={0} />
+        <Month slots={this.props.slots} tasks={TASKS} year={today.getFullYear()} month={today.getMonth()} />
       </div>
     );
   }
-
-  _renderStop() {
-    let slots = this.state.slots;
-    if (slots.length && !slots[slots.length - 1].end) {
-      return [
-        ' Or ',
-        <div className="form-group">
-          <button
-                  className="btn btn-success"
-                  onClick={this._stop}
-                  ariaLabel="End"
-                  >
-            <span className="glyphicon glyphicon-stop" aria-hidden="true"></span>
-          </button>
-        </div>
-      ];
-    }
-    return null;
-  }
-
-  _startTask = (task, startTime) => {
-    let slots = this.state.slots;
-    if (slots.length > 1 && slots[slots.length - 1].end) {
-      delete slots[slots.length - 1].end;
-    }
-    slots.push({
-      start: startTime,
-      task,
-      note: ''
-    });
-    this.setState({slots});
-  };
-
-  // TODO how come .bind doesn't work with _changeNote = () =>?
-  _changeNote(index, note) {
-    let slots = this.state.slots;
-    slots[index].note = note;
-    this.setState({slots: slots});
-  }
-
-  _markEditable(index) {
-    this.setState({isEditing: index});
-  }
-
-  _updateSlot(index, task, start) {
-    let slots = this.state.slots;
-    let slot = slots[index];
-    slot.task = task;
-    slot.start = start;
-    this.setState({
-      slots: slots,
-      isEditing: null
-    });
-  }
-
-  _deleteSlot(index) {
-    let slots = this.state.slots;
-    slots.splice(index, 1);
-    this.setState({
-      slots: slots,
-      isEditing: null
-    });
-  }
-
-  _insertSlot(index) {
-    let slots = this.state.slots;
-    slots.splice(index, 0, {task: '', start: slots[index].start});
-    this.setState({
-      slots: slots,
-      isEditing: index
-    });
-  }
-
-  _stop =() => {
-    let slots = this.state.slots;
-    if (slots.length) {
-      let lastSlot = slots[slots.length - 1];
-      lastSlot.end = new Date();
-    }
-    this.setState({
-      slots: slots,
-    });
-  };
 }
