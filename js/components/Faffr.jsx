@@ -21,19 +21,26 @@ const TASKS = [
 
 export default class Faffr extends React.Component {
   render() {
+    let today = new Date();
     return (
       <div className="container">
         <h1>Faffr</h1>
         <Week slots={this.props.slots} tasks={TASKS} />
+        <button
+                className="btn btn-success"
+                onClick={() => this.props.save(this.props.slots)}
+                >
+          Save
+        </button>
         <div className="row">
           <div className="col-md-6">
-            <Slots slots={this.props.slots} saveSlots={this.props.saveSlots} tasks={TASKS} />
+            <Slots {...this.props} tasks={TASKS} />
           </div>
           <div className="col-md-3">
             <Visualiser slots={slot.getSlotsInDay(this.props.slots, new Date())} />
           </div>
         </div>
-        <Month slots={this.props.slots} tasks={TASKS} year={2016} month={0} />
+        <Month slots={this.props.slots} tasks={TASKS} year={today.getFullYear()} month={today.getMonth()} />
       </div>
     );
   }

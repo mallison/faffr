@@ -17,7 +17,7 @@ export default class Week extends React.Component {
 
   _renderDay(day) {
     return (
-      <div style={{'float': 'left', marginBottom: 25}}>
+      <div style={{'float': 'left', marginBottom: 25}} key={day}>
         <p><strong>{day.toDateString().slice(0, 10)}</strong></p>
         <Day
                 day={day}

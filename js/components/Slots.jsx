@@ -2,25 +2,23 @@ import React from 'react';
 
 import TaskSwitcher from './TaskSwitcher';
 import Slot from './Slot';
-import * as slot from '../slot';
 
 export default class Slots extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: null,
-      slots: slot.getSlots()
+      isEditing: null
     };
   }
 
   render() {
     let taskNames = this.props.tasks.map(t => t.name);
-    let slots = [...this.state.slots];
+    let slots = [...this.props.slots];
     slots.reverse();
     return (
       <div>
         <div className="form-inline">
-          <TaskSwitcher onStartTask={this._startSlot} tasks={taskNames}/>
+          <TaskSwitcher onStartTask={(task, start) => this.props.addSlot(task, start)} tasks={taskNames}/>
           {this._renderStop()}
         </div>
         {slots.map(
@@ -31,6 +29,7 @@ export default class Slots extends React.Component {
             }
             return (
               <Slot {...s}
+              key={s.id}
               tasks={taskNames}
               onNoteChange={this._changeNote.bind(this, s.id)}
               isEditable={this.state.isEditing === s.id}
@@ -48,7 +47,7 @@ export default class Slots extends React.Component {
   }
 
   _renderStop() {
-    let slots = this.state.slots;
+    let slots = this.props.slots;
     // TODO move this check to slot util function
     if (slots.length && !slots[slots.length - 1].end) {
       return [
@@ -56,7 +55,7 @@ export default class Slots extends React.Component {
         <div className="form-group">
           <button
                   className="btn btn-success"
-                  onClick={this._stop}
+                  onClick={this.props.endDay}
                   ariaLabel="End"
                   >
             <span className="glyphicon glyphicon-stop" aria-hidden="true"></span>
@@ -71,46 +70,29 @@ export default class Slots extends React.Component {
     this.setState({isEditing: slotID});
   }
 
-  _startSlot = (task, startTime) => {
-    let slots = slot.addSlot(task, startTime);
-    this.setState({slots});
-  };
-
   // TODO how come .bind doesn't work with _changeNote = () =>?
-  _changeNote(index, note) {
-    let slots = this.state.slots;
-    slots[index].note = note;
-    this.setState({slots: slots});
+  _changeNote(slotID, note) {
+    this.props.updateNote(slotID, note);
   }
 
   _updateSlot(slotID, task, start) {
-    let slots = slot.updateSlot(slotID, task, start);
+    this.props.updateSlot(slotID, task, start);
     this.setState({
-      slots: slots,
       isEditing: null
     });
   }
 
   _deleteSlot(slotID) {
-    let slots = slot.deleteSlot(slotID);
+    this.props.deleteSlot(slotID);
     this.setState({
-      slots: slots,
       isEditing: null
     });
   }
 
   _insertSlot(beforeSlotID) {
-    let [slots, slotID] = slot.insertSlot(beforeSlotID);
-    this.setState({
-      slots: slots,
-      isEditing: slotID
-    });
+    this.props.insertSlot(beforeSlotID);
+    /* this.setState({
+       isEditing: slotID  // TODO how to get ID of newly inserted slot!?
+       }); */
   }
-
-  _stop = () => {
-    let slots = slot.endSlot();
-    this.setState({
-      slots: slots
-    });
-  };
 }

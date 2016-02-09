@@ -1,19 +1,22 @@
 import React, { PropTypes } from 'react';
 
 export default class Visualiser extends React.Component {
-  componentDidMount() {
-    this._tickInterval = setInterval(this._tick, 1000);
-  }
+  /* componentDidMount() {
+     this._tickInterval = setInterval(this._tick, 1000);
+     }
 
-  componentWillUnmount() {
-    clearInterval(this._tickInterval);
-  }
+     componentWillUnmount() {
+     clearInterval(this._tickInterval);
+     }
 
-  _tick = () => {
-    this.forceUpdate();
-  };
+     _tick = () => {
+     this.forceUpdate();
+     }; */
 
   render() {
+    if (!this.props.slots.length) {
+      return null;
+    }
     let slots = this.props.slots;
     let durations = {};
     let totalDuration = 0;
