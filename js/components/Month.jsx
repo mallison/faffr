@@ -31,7 +31,7 @@ export default class Month extends React.Component {
     };
     let slotsInDay = slot.getSlotsInDay(this.props.slots, day.date);
     return (
-      <div style={dayStyle}>
+      <div style={dayStyle} key={day.date}>
         {day.isDayInMonth ? day.number : null}
         {day.isDayInMonth && slotsInDay.length ? <Day
          slots={slotsInDay}

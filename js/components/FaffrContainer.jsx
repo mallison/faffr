@@ -1,43 +1,76 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import request from 'superagent';
 
 import Faffr from './Faffr';
-import { dateFromISODateString } from '../utils/dateTime.js';
 
-export default class FaffrContainer extends React.Component {
-  state = {
-    slots: null
+const mapStateToProps = (state) => {
+  return {
+    slots: state
   };
+};
 
-  componentDidMount() {
-    request.get('/slots').end((err, res) => this._initSlots(res.body));
-  }
-
-  _initSlots(slots) {
-    /* this is for slots from timesheet.py */
-    /* slots = slots.map(s => ({
-       task: s[1][0],
-       start: new Date(s[0])
-       })); */
-    slots.forEach(s => {
-      s.start = dateFromISODateString(s.start);
-      if (s.end) {
-        s.end = dateFromISODateString(s.end);
-      }
-    });
-    this.setState({slots});
-  }
-  render() {
-    if (this.state.slots !== null) {
-      return <Faffr slots={this.state.slots} saveSlots={this._saveSlots} />;
+// TODO autogenerate this?
+const mapDispatchToProps = (dispatch) => {
+  return {
+    save: (slots) => {
+      dispatch(
+        () => {
+          // TODO dispatch a SAVE_START action or something
+          return request
+            .post('/slots')
+            .send(slots)
+            .end();
+          // TODO .end => dispatch save success/fail action
+        });
+    },
+    addSlot: (task, start) => {
+      dispatch({
+        type: 'add',
+        task,
+        start
+      });
+    },
+    // TODO possibly this could be two separate actions?
+    updateSlot: (slotID, task, start) => {
+      dispatch({
+        type: 'update',
+        slotID,
+        task,
+        start
+      });
+    },
+    updateNote: (slotID, note) => {
+      dispatch({
+        type: 'updateNote',
+        slotID,
+        note
+      });
+    },
+    deleteSlot: (slotID) => {
+      dispatch({
+        type: 'delete',
+        slotID
+      });
+    },
+    insertSlot: (beforeSlotID) => {
+      dispatch({
+        type: 'insert',
+        slotID: beforeSlotID
+      });
+    },
+    endDay: () => {
+      dispatch({
+        type: 'end'
+      });
     }
-    return null;
-  }
-
-  _saveSlots = (slots) => {
-    request.post('/slots')
-      .send(slots)
-      .end();
-      // TODO .end((err, res)
   };
-}
+};
+
+
+const FaffrContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Faffr);
+
+export default FaffrContainer;

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///faffr.db'
 db = SQLAlchemy(app)
 
 
@@ -29,7 +29,7 @@ def slots():
 
 
 def _save_slots():
-    timesheets = Timesheet.query.all();
+    timesheets = Timesheet.query.all()
     if not timesheets:
         timesheet = Timesheet(slots=request.data)
         db.session.add(timesheet)
@@ -40,7 +40,7 @@ def _save_slots():
 
 
 def _return_slots():
-    timesheets = Timesheet.query.all();
+    timesheets = Timesheet.query.all()
     if timesheets:
         return timesheets[0].slots
     return '[]'
