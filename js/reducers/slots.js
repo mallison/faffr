@@ -44,11 +44,11 @@ export default function reduce(state = [], action) {
     newState = [...newState, slot];
 
   } else if (action.type === 'insert') {
-    let slotIndex = getSlotIndex(newState, action.slotID);
+    let slotIndex = getSlotIndex(newState, action.beforeSlotID);
     let slot = {
       task: '',
       start: newState[slotIndex].start,
-      id: getID()
+      id: action.newSlotID
     };
     newState.splice(slotIndex, 0, slot);
 

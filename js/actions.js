@@ -1,4 +1,5 @@
 import request from 'superagent';
+import getID from './utils/getID';
 
 export function fetchSlots() {
   return (dispatch) => {
@@ -60,7 +61,8 @@ export function deleteSlot(slotID) {
 export function insertSlot(beforeSlotID) {
   return {
     type: 'insert',
-    slotID: beforeSlotID
+    beforeSlotID,
+    newSlotID: getID()
   };
 }
 
