@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import request from 'superagent';
 
 import Faffr from './Faffr';
+import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -10,59 +9,30 @@ const mapStateToProps = (state) => {
   };
 };
 
-// TODO autogenerate this?
+// TODO autogenerate this, very repititve to write out?
 const mapDispatchToProps = (dispatch) => {
   return {
     save: (slots) => {
-      dispatch(
-        () => {
-          // TODO dispatch a SAVE_START action or something
-          return request
-            .post('/slots')
-            .send(slots)
-            .end();
-          // TODO .end => dispatch save success/fail action
-        });
+      dispatch(actions.saveSlots(slots));
     },
     addSlot: (task, start) => {
-      dispatch({
-        type: 'add',
-        task,
-        start
-      });
+      dispatch(actions.addSlot(task, start));
     },
     // TODO possibly this could be two separate actions?
     updateSlot: (slotID, task, start) => {
-      dispatch({
-        type: 'update',
-        slotID,
-        task,
-        start
-      });
+      dispatch(actions.updateSlot(slotID, task, start));
     },
     updateNote: (slotID, note) => {
-      dispatch({
-        type: 'updateNote',
-        slotID,
-        note
-      });
+      dispatch(actions.updateNote(slotID, note));
     },
     deleteSlot: (slotID) => {
-      dispatch({
-        type: 'delete',
-        slotID
-      });
+      dispatch(actions.deleteSlot(slotID));
     },
     insertSlot: (beforeSlotID) => {
-      dispatch({
-        type: 'insert',
-        slotID: beforeSlotID
-      });
+      dispatch(actions.insertSlot(beforeSlotID));
     },
     endDay: () => {
-      dispatch({
-        type: 'end'
-      });
+      dispatch(actions.endDay());
     }
   };
 };
