@@ -4,13 +4,6 @@ import TaskSwitcher from './TaskSwitcher';
 import Slot from './Slot';
 
 export default class Slots extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditing: null
-    };
-  }
-
   render() {
     let taskNames = this.props.tasks.map(t => t.name);
     let slots = [...this.props.slots];
@@ -32,9 +25,9 @@ export default class Slots extends React.Component {
               key={s.id}
               tasks={taskNames}
               onNoteChange={this._changeNote.bind(this, s.id)}
-              isEditable={this.state.isEditing === s.id}
-              isFocused={this.state.isEditing !== s.id}
-              onClickEdit={this._markEditable.bind(this, s.id)}
+              isEditable={this.props.editableSlot === s.id}
+              isFocused={this.props.editableSlot !== s.id}
+              onClickEdit={() => this.props.markEditable(s.id)}
               onUpdateSlot={this._updateSlot.bind(this, s.id)}
               onDeleteSlot={this._deleteSlot.bind(this, s.id)}
               onInsertSlot={this._insertSlot.bind(this, s.id)}
@@ -66,10 +59,6 @@ export default class Slots extends React.Component {
     return null;
   }
 
-  _markEditable(slotID) {
-    this.setState({isEditing: slotID});
-  }
-
   // TODO how come .bind doesn't work with _changeNote = () =>?
   _changeNote(slotID, note) {
     this.props.updateNote(slotID, note);
@@ -77,16 +66,10 @@ export default class Slots extends React.Component {
 
   _updateSlot(slotID, task, start) {
     this.props.updateSlot(slotID, task, start);
-    this.setState({
-      isEditing: null
-    });
   }
 
   _deleteSlot(slotID) {
     this.props.deleteSlot(slotID);
-    this.setState({
-      isEditing: null
-    });
   }
 
   _insertSlot(beforeSlotID) {

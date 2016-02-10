@@ -69,3 +69,10 @@ export function endDay() {
     type: 'end'
   };
 }
+
+export function markEditable(slotID) {
+  return {
+    type: 'MARK_EDITABLE',
+    slotID
+  };
+}

@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import thunkMiddleware from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
-import FaffrContainer from './components/FaffrContainer';
-import slotReducer from './reducer';
+import Faffr from './containers/Faffr';
+import slots from './reducers/slots';
+import editableSlot from './reducers/editableSlot';
 import { fetchSlots } from './actions';
 
 const store = createStore(
-  slotReducer,
+  combineReducers({
+    slots,
+    editableSlot
+  }),
   applyMiddleware(
     thunkMiddleware
   )
@@ -20,7 +24,7 @@ store.dispatch(fetchSlots());
 
 ReactDOM.render(
     <Provider store={store}>
-    <FaffrContainer />
+    <Faffr />
     </Provider>,
   document.getElementById('faffr')
 );

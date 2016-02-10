@@ -1,6 +1,6 @@
-import getID from './utils/getID';
-import SLOTS from './dummyInitialState';
-import { dateFromISODateString } from './utils/dateTime';
+import getID from '../utils/getID';
+import SLOTS from '../dummyInitialState';
+import { dateFromISODateString } from '../utils/dateTime';
 
 // const initialState = SLOTS;  // for debug
 

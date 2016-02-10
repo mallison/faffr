@@ -1,13 +1,10 @@
 import { connect } from 'react-redux';
 
-import Faffr from './Faffr';
+import Faffr from '../components/Faffr';
 import * as actions from '../actions';
 
-const mapStateToProps = (state) => {
-  return {
-    slots: state
-  };
-};
+// TODO do I need this identity function?
+const mapStateToProps = (state) => state;
 
 // TODO autogenerate this, very repititve to write out?
 const mapDispatchToProps = (dispatch) => {
@@ -33,10 +30,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     endDay: () => {
       dispatch(actions.endDay());
+    },
+    markEditable: (slotID) => {
+      dispatch(actions.markEditable(slotID));
     }
   };
 };
-
 
 const FaffrContainer = connect(
   mapStateToProps,
