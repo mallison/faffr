@@ -1,5 +1,5 @@
 import request from 'superagent';
-import getID from './utils/getID';
+import getID from '../utils/getID';
 
 export function fetchSlots() {
   return (dispatch) => {

@@ -10,7 +10,7 @@ export default class Slot extends React.Component {
 
   componentDidMount() {
     if (this.props.isFocused && this._note) {
-      this._note.focus();
+//      this._note.focus();
     }
   }
 

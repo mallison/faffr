@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import TaskMenu from './TaskMenu';
+
 export default class TaskSwitcher extends React.Component {
   constructor(props) {
     super(props);
@@ -31,17 +33,7 @@ export default class TaskSwitcher extends React.Component {
         </div>
         {' '}
         <div className="form-group">
-          <label>
-            Task: {' '}
-            <select
-                    className="form-control"
-                    defaultValue={this.state.task}
-                    onChange={this._onTaskChange}
-                    >
-              <option value="">-- Choose task --</option>
-              {this.props.tasks.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
-          </label>
+          <TaskMenu onChange={this._onTaskChange} />
         </div>
         {' '}
         {this.props.withSave ?
@@ -63,15 +55,14 @@ export default class TaskSwitcher extends React.Component {
     this.setState({start: start});
   };
 
-  _onTaskChange = (e) => {
+  _onTaskChange = (task) => {
     if (this.props.withSave) {
       this.setState({task: e.target.value});
       return;
     }
     // TODO check start time is > start time of last slot
-    let task = e.target.value;
-    e.target.value = '';
     let start = this.state.start;
+    // TODO this default time should be in action creator
     if (!start) {
       start = this._getCurrentTime();
     }

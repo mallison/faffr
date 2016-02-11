@@ -4,20 +4,8 @@ import Visualiser from './Visualiser';
 import Month from './Month';
 import Week from './Week';
 import Slots from './Slots';
+import AddTask from '../containers/AddTask';
 import * as slot from '../slot';
-
-const TASKS = [
-  {name: 'admin', colour: 'blue'},
-  {name: 'afk', colour: 'red'},
-  {name: 'coding', colour: 'yellow'},
-  {name: 'coffee', colour: 'brown'},
-  {name: 'eat', colour: 'green'},
-  {name: 'job', colour: '#cab'},
-  {name: 'misc', colour: '#ccc'},
-  {name: 'therapy', colour: 'cyan'},
-  {name: 'tv', colour: 'orange'},
-  {name: 'workout', colour: 'purple'}
-];
 
 export default class Faffr extends React.Component {
   render() {
@@ -25,7 +13,7 @@ export default class Faffr extends React.Component {
     return (
       <div className="container">
         <h1>Faffr</h1>
-        <Week slots={this.props.slots} tasks={TASKS} />
+        <Week {...this.props} />
         <button
                 className="btn btn-success"
                 onClick={() => this.props.save(this.props.slots)}
@@ -34,13 +22,16 @@ export default class Faffr extends React.Component {
         </button>
         <div className="row">
           <div className="col-md-6">
-            <Slots {...this.props} tasks={TASKS} />
+            <Slots {...this.props} />
           </div>
           <div className="col-md-3">
-            <Visualiser slots={slot.getSlotsInDay(this.props.slots, new Date())} />
+            <Visualiser
+                    slots={slot.getSlotsInDay(this.props.slots, new Date())}
+                    tasks={this.props.tasks}
+            />
           </div>
         </div>
-        <Month slots={this.props.slots} tasks={TASKS} year={today.getFullYear()} month={today.getMonth()} />
+        <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
       </div>
     );
   }

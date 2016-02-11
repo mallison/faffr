@@ -5,14 +5,19 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import Faffr from './containers/Faffr';
+// TODO add index.js to reducers
 import slots from './reducers/slots';
+import tasks from './reducers/tasks';
 import editableSlot from './reducers/editableSlot';
-import { fetchSlots } from './actions';
+import selectedTask from './reducers/selectedTask';
+import { fetchSlots } from './actionCreators/slots';
 
 const store = createStore(
   combineReducers({
     slots,
-    editableSlot
+    editableSlot,
+    tasks,
+    selectedTask
   }),
   applyMiddleware(
     thunkMiddleware

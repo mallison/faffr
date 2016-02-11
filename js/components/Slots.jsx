@@ -11,7 +11,7 @@ export default class Slots extends React.Component {
     return (
       <div>
         <div className="form-inline">
-          <TaskSwitcher onStartTask={(task, start) => this.props.addSlot(task, start)} tasks={taskNames}/>
+          <TaskSwitcher onStartTask={(task, start) => this.props.addSlot(task, start)} tasks={this.props.tasks}/>
           {this._renderStop()}
         </div>
         {slots.map(
