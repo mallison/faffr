@@ -57,7 +57,7 @@ export default class TaskSwitcher extends React.Component {
 
   _onTaskChange = (task) => {
     if (this.props.withSave) {
-      this.setState({task: e.target.value});
+      this.setState({task});
       return;
     }
     // TODO check start time is > start time of last slot
