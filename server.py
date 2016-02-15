@@ -9,6 +9,7 @@ database_uri = os.environ.get(
     'sqlite:///faffr.db'
 )
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
