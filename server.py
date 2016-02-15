@@ -1,8 +1,14 @@
+import os
+
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///faffr.db'
+database_uri = os.environ.get(
+    'SQLALCHEMY_DATABASE_URI',
+    'sqlite:///faffr.db'
+)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 db = SQLAlchemy(app)
 
 
@@ -16,7 +22,10 @@ class Timesheet(db.Model):
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    return render_template(
+        'index.html',
+        is_production=os.environ.get('FAFFR_ENV') == 'production'
+    )
 
 
 @app.route('/slots', methods=['GET', 'POST'])
