@@ -5,8 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.debug = True
-
 database_uri = os.environ.get(
     'SQLALCHEMY_DATABASE_URI',
     'sqlite:///faffr.db'
