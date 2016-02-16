@@ -11,7 +11,8 @@ export default class Faffr extends React.Component {
   render() {
     let today = new Date();
     let todaysSlots = slot.getSlotsInDay(this.props.slots, today);
-    todaysSlots.reverse();
+    let todaysSlotsReversed = [...todaysSlots];
+    todaysSlotsReversed.reverse();
     return (
       <div className="container">
         <h1>Faffr</h1>
@@ -36,7 +37,7 @@ export default class Faffr extends React.Component {
                       onStartTask={(task, start) => this.props.addSlot(task, start)}
                       tasks={this.props.tasks} />
             </div>
-            {todaysSlots.map(s => <Slot key={s.id} {...s} {...this.props} />)}
+            {todaysSlotsReversed.map(s => <Slot key={s.id} {...s} {...this.props} />)}
             <Week {...this.props} />
             <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
           </div>
