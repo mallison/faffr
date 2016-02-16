@@ -26,13 +26,13 @@ export default class Faffr extends React.Component {
           </button>
         </p>
         <div className="row">
-          <div className="col-md-6 col-md-push-6">
+          <div className="col-md-4 col-md-push-4">
             <Visualiser
                     slots={todaysSlots}
                     tasks={this.props.tasks}
             />
           </div>
-          <div className="col-md-6 col-md-pull-6">
+          <div className="col-md-4 col-md-pull-4">
             <div className="form-inline" style={{paddingBottom: 15}}>
               <TaskSwitcher
                       onStartTask={(task, start) => this.props.addSlot(task, start)}
@@ -40,8 +40,6 @@ export default class Faffr extends React.Component {
             </div>
             {todaysSlotsReversed.map(s => <Slot key={s.id} {...s} {...this.props} />)}
           </div>
-        </div>
-        <div className="row">
           <div className="col-md-4">
             <Day {...this.props} slots={todaysSlots} day={today} />
           </div>
