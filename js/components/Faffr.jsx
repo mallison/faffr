@@ -26,24 +26,19 @@ export default class Faffr extends React.Component {
         <div className="row">
           <div className="col-md-6 col-md-push-6">
             <Visualiser
-                    slots={slot.getSlotsInDay(this.props.slots, new Date())}
+                    slots={todaysSlots}
                     tasks={this.props.tasks}
             />
           </div>
           <div className="col-md-6 col-md-pull-6">
             <div className="form-inline" style={{paddingBottom: 15}}>
               <TaskSwitcher
-                      onStartTask={(task, start) => this.props.addSlot(task, start)} tasks={this.props.tasks} />
+                      onStartTask={(task, start) => this.props.addSlot(task, start)}
+                      tasks={this.props.tasks} />
             </div>
-            {todaysSlots.map(s => (
-              <Slot
-              key={s.id}
-              {...s}
-              {...this.props}
-              />
-             ))}
-              <Week {...this.props} />
-              <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
+            {todaysSlots.map(s => <Slot key={s.id} {...s} {...this.props} />)}
+            <Week {...this.props} />
+            <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
           </div>
         </div>
       </div>
