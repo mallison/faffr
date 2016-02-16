@@ -1,23 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { selectTask } from '../actionCreators/tasks';
 
 // Crude multi-level select to be replaced with a nice component
-class TaskMenu extends React.Component {
+export default class TaskMenu extends React.Component {
   render() {
-    let { tasks, selectedTask, onChange } = this.props;
+    let { tasks } = this.props;
     return (
       <div>
         {this._renderTasks(tasks)}
-        {selectedTask.length ?
-        <button
-                className="btn btn-primary"
-                onClick={() => onChange(selectedTask)}
-                >
-          Select
-        </button>
-        : null
-        }
       </div>
     );
   }
@@ -60,17 +49,3 @@ class TaskMenu extends React.Component {
     return menu;
   }
 }
-
-TaskMenu = connect(
-  state => ({
-    tasks: state.tasks,
-    selectedTask: state.selectedTask
-  }),
-  dispatch => {
-    return {
-      selectTask: (path) => dispatch(selectTask(path))
-    };
-  }
-)(TaskMenu);
-
-export default TaskMenu;

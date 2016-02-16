@@ -3,35 +3,49 @@ import React, { PropTypes } from 'react';
 import Visualiser from './Visualiser';
 import Month from './Month';
 import Week from './Week';
-import Slots from './Slots';
-import AddTask from '../containers/AddTask';
+import Slot from './Slot';
+import TaskSwitcher from './TaskSwitcher';
 import * as slot from '../slot';
 
 export default class Faffr extends React.Component {
   render() {
     let today = new Date();
+    let todaysSlots = slot.getSlotsInDay(this.props.slots, today);
+    todaysSlots.reverse();
     return (
       <div className="container">
         <h1>Faffr</h1>
-        <Week {...this.props} />
-        <button
-                className="btn btn-success"
-                onClick={() => this.props.save(this.props.slots)}
-                >
-          Save
-        </button>
+        <p>
+          <button
+                  className="btn btn-success"
+                  onClick={() => this.props.save(this.props.slots)}
+                  >
+            Save
+          </button>
+        </p>
         <div className="row">
-          <div className="col-md-6">
-            <Slots {...this.props} />
-          </div>
-          <div className="col-md-3">
+          <div className="col-md-6 col-md-push-6">
             <Visualiser
                     slots={slot.getSlotsInDay(this.props.slots, new Date())}
                     tasks={this.props.tasks}
             />
           </div>
+          <div className="col-md-6 col-md-pull-6">
+            <div className="form-inline" style={{paddingBottom: 15}}>
+              <TaskSwitcher
+                      onStartTask={(task, start) => this.props.addSlot(task, start)} tasks={this.props.tasks} />
+            </div>
+            {todaysSlots.map(s => (
+              <Slot
+              key={s.id}
+              {...s}
+              {...this.props}
+              />
+             ))}
+              <Week {...this.props} />
+              <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
+          </div>
         </div>
-        <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
       </div>
     );
   }

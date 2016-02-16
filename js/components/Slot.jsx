@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import TaskSwitcher from './TaskSwitcher';
 import getID from '../utils/getID';
@@ -10,7 +10,7 @@ export default class Slot extends React.Component {
 
   componentDidMount() {
     if (this.props.isFocused && this._note) {
-//      this._note.focus();
+      //      this._note.focus();
     }
   }
 
@@ -23,31 +23,29 @@ export default class Slot extends React.Component {
   }
 
   render() {
+    let { id, editableSlot } = this.props;
+    let isEditable = editableSlot === id;
     return (
-      <div>
-        <div className="form-group">
-          {this.props.isEditable ?
+      <div className="panel panel-default">
+        <div className="panel-heading">
+          {isEditable ?
            this._renderTaskAndTimeEditor() :
-           this._renderTaskAndTime()
-           }
-          <textarea
-                  id={this._id}
-                  className="form-control"
-                  placeholder="Add note"
-                  ref={t => this._note = t}
-                  rows={4}
-                  cols={70}
-                  value={this.props.note}
-                  onChange={e => this.props.onNoteChange(e.target.value)}
-          />
+           this._renderTaskAndTime()}
         </div>
-        <button
-                className="btn btn-success btn-xs"
-                onClick={this.props.onInsertSlot}
-                ariaLabel="Insert"
-                >
-          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
+        <div className="panel-body">
+          <div className="form-group">
+            <textarea
+                    id={this._id}
+                    className="form-control"
+                    placeholder="Add note"
+                    ref={t => this._note = t}
+                    rows={1}
+                    cols={70}
+                    value={this.props.note}
+                    onChange={e => this.props.onNoteChange(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
     );
   }
@@ -60,7 +58,7 @@ export default class Slot extends React.Component {
                 task={this.props.task}
                 start={this.props.start}
                 withSave={true}
-                onStartTask={this.props.onUpdateSlot}
+                onStartTask={(task, start) => this.props.updateSlot(this.props.id, task, start)}
         />
       </div>
     );
@@ -78,18 +76,28 @@ export default class Slot extends React.Component {
       ' ',
       <button
               className="btn btn-primary btn-xs"
-              onClick={this.props.onClickEdit}
+              onClick={() => this.props.markEditable(this.props.id)}
               ariaLabel="Edit"
               >
-        <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        <span className="glyphicon glyphicon-pencil" aria-hidden="true">
+        </span>
       </button>,
       ' ',
       <button
               className="btn btn-danger btn-xs"
-              onClick={this.props.onDeleteSlot}
+              onClick={() => this.props.deleteSlot(this.props.id)}
               ariaLabel="Delete"
               >
         <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      </button>,
+      ' ',
+      <button
+              className="btn btn-success btn-xs"
+              onClick={() => this.props.insertSlot(this.props.id)}
+              ariaLabel="Insert"
+              >
+        <span className="glyphicon glyphicon-plus" aria-hidden="true">
+        </span>
       </button>
     ];
   }
