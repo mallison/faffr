@@ -47,7 +47,7 @@ export default class Slot extends React.Component {
                     rows={1}
                     cols={70}
                     value={this.props.note}
-                    onChange={e => this.props.onNoteChange(e.target.value)}
+                    onChange={e => this.props.updateNote(this.props.id, e.target.value)}
             />
           </div>
         </div>
