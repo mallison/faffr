@@ -62,15 +62,16 @@ export default class Visualiser extends React.Component {
       colour = '#ccc';
     }
     let barStyle = {
-      height: 20,
       backgroundColor: colour,
       width: `${100 * d.duration / maxDuration}%`
     };
     return (
-      <div>
-        <p style={{'float': 'left'}}>{d.task}</p>
-        <p style={{'float': 'right'}}>{getMillisecondsAsHoursAndMinutes(d.duration)}</p>
-        <p style={barStyle}></p>
+      <div className="progress">
+        <div className="progress-bar" role="progressbar" aria-valuenow={d.duration} aria-valuemin="0" aria-valuemax={maxDuration} style={barStyle}>
+          <p style={{'float': 'left', paddingLeft: 5}}>{d.task}</p>
+          <p style={{'float': 'right', paddingRight: 5}}>{getMillisecondsAsHoursAndMinutes(d.duration)}</p>
+
+        </div>
       </div>
     );
   }

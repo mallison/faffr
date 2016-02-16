@@ -1,15 +1,20 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import classnames from 'classnames';
 
+import { connect } from 'react-redux';
+import { selectTask } from '../actionCreators/tasks';
 import TaskMenu from './TaskMenu';
 
-export default class TaskSwitcher extends React.Component {
+class TaskSwitcher extends React.Component {
   constructor(props) {
     super(props);
-    let start = this.props.start === undefined ? null : this.props.start;
-    this.state = {
-      start: start,
-      task: this.props.task
-    };
+    let start;
+    if (!props.start) {
+      start = null;
+    } else {
+      start = props.start;
+    }
+    this.state = {start};
   }
 
   componentDidMount() {
@@ -17,36 +22,63 @@ export default class TaskSwitcher extends React.Component {
   }
 
   render() {
+    let glyphClassNames = classnames({
+      glyphicon: true,
+      'glyphicon-play': !this.props.withSave,
+      'glyphicon-ok': this.props.withSave
+    });
+    let buttonAction;
+    if (this.props.withSave) {
+      buttonAction = 'Update';
+    } else {
+      buttonAction = 'Start';
+    }
     return (
-      <div style={{display: 'inline-block'}}>
+      <div>
         <div className="form-group">
-          <label>
-            Time:{' '}
-            <input
-                    className="form-control"
-                    ref={i => this._input = i}
-                    type="time"
-                    value={this.state.start === null ? '' : this._getTime(this.state.start)}
-                    onChange={this._updateTime}
-            />
-          </label>
+          <input
+                  className="form-control"
+                  ref={i => this._input = i}
+                  type="time"
+                  value={this.state.start === null ? '' : this._getTime(this.state.start)}
+                  onChange={this._updateTime}
+          />
         </div>
         {' '}
         <div className="form-group">
-          <TaskMenu onChange={this._onTaskChange} />
+          <TaskMenu {...this.props} />
         </div>
         {' '}
-        {this.props.withSave ?
-         <button
-         className="btn btn-primary"
-         onClick={this._onSave}
-         >
-         Save
-         </button>
-         :
-         null
-         }
+        <button
+                type="submit"
+                className="btn btn-primary"
+                aria-label={buttonAction}
+                onClick={this._onTaskChange}
+                >
+          <span className="sr-only">
+            {buttonAction}
+          </span>
+          <span
+                  className={glyphClassNames}
+                  aria-hidden="true"
+                  >
+          </span>
+        </button>
+        {' '}
+        {this._renderStop()}
       </div>
+    );
+  }
+
+  _renderStop() {
+    return (
+      <button
+              className="btn btn-success"
+              onClick={this.props.endDay}
+              ariaLabel="End"
+              >
+        <span className="glyphicon glyphicon-stop" aria-hidden="true"></span>
+      </button>
     );
   }
 
@@ -55,23 +87,15 @@ export default class TaskSwitcher extends React.Component {
     this.setState({start: start});
   };
 
-  _onTaskChange = (task) => {
-    if (this.props.withSave) {
-      this.setState({task});
-      return;
-    }
+  _onTaskChange = () => {
+    let { selectedTask } = this.props;
     // TODO check start time is > start time of last slot
     let start = this.state.start;
     // TODO this default time should be in action creator
     if (!start) {
       start = this._getCurrentTime();
     }
-    this._startTask(task, start);
-  };
-
-  _onSave = (e) => {
-    e.preventDefault();
-    this._startTask(this.state.task, this.state.start);
+    this._startTask(selectedTask, start);
   };
 
   _startTask(task, start) {
@@ -108,3 +132,18 @@ export default class TaskSwitcher extends React.Component {
     return date;
   }
 }
+
+// TODO move container to other file?
+TaskSwitcher = connect(
+  state => ({
+    tasks: state.tasks,
+    selectedTask: state.selectedTask
+  }),
+  dispatch => {
+    return {
+      selectTask: (path) => dispatch(selectTask(path))
+    };
+  }
+)(TaskSwitcher);
+
+export default TaskSwitcher;
