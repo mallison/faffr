@@ -12,9 +12,14 @@ export default class Slot extends React.Component {
     if (this.props.isFocused && this._note) {
       //      this._note.focus();
     }
+    this._reszieTextarea();
   }
 
   componentDidUpdate() {
+    this._reszieTextarea();
+  }
+
+  _reszieTextarea() {
     // TODO this is hacky. web suggests other solution might be off page element
     // to track height of content. Other implementations suggest it's not this simple
     // either!
