@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import Visualiser from './Visualiser';
 import Month from './Month';
 import Week from './Week';
+import Day from './Day';
 import Slot from './Slot';
 import TaskSwitcher from './TaskSwitcher';
 import * as slot from '../slot';
@@ -38,8 +39,11 @@ export default class Faffr extends React.Component {
                       tasks={this.props.tasks} />
             </div>
             {todaysSlotsReversed.map(s => <Slot key={s.id} {...s} {...this.props} />)}
-            <Week {...this.props} />
-            <Month {...this.props} year={today.getFullYear()} month={today.getMonth()} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-4">
+            <Day {...this.props} slots={todaysSlots} day={today} />
           </div>
         </div>
       </div>
