@@ -3,7 +3,7 @@ import React from 'react';
 const DayGrid = (props) => {
   let rows = [];
   for (let hour = props.startTime; hour < 24; hour += 1) {
-    rows.push(<DayRow {...props} hour={hour} />);
+    rows.push(<DayRow key={hour} {...props} hour={hour} />);
   }
   return (
     <div>
