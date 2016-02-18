@@ -41,7 +41,15 @@ export default function reduce(state = [], action) {
       start,
       id: getID()
     };
-    newState = [...newState, slot];
+    if (newState.length) {
+      let slotIndex = newState.length - 1;
+      let lastSlot = {...newState[slotIndex]};
+      if (!lastSlot.end) {
+        lastSlot.end = start;
+        newState.splice(slotIndex, 1, lastSlot);
+      }
+    }
+    newState.push(slot);
 
   } else if (action.type === 'insert') {
     let slotIndex = getSlotIndex(newState, action.beforeSlotID);
