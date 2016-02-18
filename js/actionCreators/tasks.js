@@ -6,9 +6,9 @@ export function addTask(name, parent) {
   };
 }
 
-export function selectTask(task) {
+export function selectTask(taskID) {
   return {
     type: 'SELECT_TASK',
-    task
+    taskID
   };
 }

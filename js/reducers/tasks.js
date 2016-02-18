@@ -64,6 +64,21 @@ const TASKS = [
   }
 ];
 
+function setTaskIDs() {
+  TASKS.forEach(t => setTaskID(t));
+}
+
+function setTaskID(task, parent) {
+  let taskID = task.name;
+  if (parent) {
+    taskID = `${parent}.${taskID}`;
+  }
+  task.id = taskID;
+  task.subtasks.map(t => setTaskID(t, taskID));
+}
+
+setTaskIDs();
+
 export default function reduce(state = TASKS, action) {
   if (action.type === 'ADD_TASK') {
     let task = {

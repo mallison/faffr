@@ -2,52 +2,36 @@ import React from 'react';
 
 import { spaceComponents } from './utils';
 
-// Crude multi-level select to be replaced with a nice component
-export default class TaskMenu extends React.Component {
-  render() {
-    let { tasks } = this.props;
-    return (
-      <div>
-        {spaceComponents(this._renderTasks(tasks))}
-      </div>
+// TODO is there best practice for hierarchical data (on mobile)?
+const TaskMenu = ({ tasks, task, selectedTask, selectTask }) => {
+  return (
+    <select
+            className="form-control"
+            value={selectedTask || task}
+            onChange={(e) => selectTask(e.target.value)}
+            >
+      <option value="">- Choose task -</option>
+      {tasks.map(t => renderTask(t))}
+    </select>
+  );
+};
+
+const renderTask = (task, level=0) => {
+  let prefix = Array(2 * level + 1).join('-');
+  let options = [
+    <option
+            key={task.name}
+            value={task.id}
+            >
+      {prefix} {task.name}
+    </option>
+  ];
+  if (task.subtasks.length) {
+    options = options.concat(
+      task.subtasks.map(t => renderTask(t, level + 1))
     );
   }
+  return options;
+};
 
-  _renderTasks(tasks, level = 0) {
-    // TODO this needed?
-    if (!tasks.length) {
-      return null;
-    }
-    ///////////
-    let selected;
-    let path;
-    if (this.props.selectedTask.length) {
-      selected = this.props.selectedTask[level];
-      path = this.props.selectedTask.slice(0, level);
-    } else {
-      path = [];
-    }
-    let select;
-    let menu = [
-      <select
-              key={level}
-              ref={node => select = node}
-              className="form-control"
-              value={selected}
-              onChange={() => this.props.selectTask([...path, select.value])}
-              >
-        <option></option>
-        {tasks.map(t => <option key={t.name} value={t.name}>{t.name}</option>)}
-      </select>
-    ];
-    if (selected) {
-      let selectedTask = tasks.find(t => t.name === selected);
-      if (selectedTask.subtasks) {
-        menu = menu.concat(
-          this._renderTasks(selectedTask.subtasks, level + 1)
-        );
-      }
-    }
-    return menu;
-  }
-}
+export default TaskMenu;

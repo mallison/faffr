@@ -127,7 +127,7 @@ TaskSwitcher = connect(
   }),
   dispatch => {
     return {
-      selectTask: (path) => dispatch(selectTask(path))
+      selectTask: (taskID) => dispatch(selectTask(taskID))
     };
   }
 )(TaskSwitcher);
