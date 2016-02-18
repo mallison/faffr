@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch) => {
     insertSlot: (beforeSlotID) => {
       dispatch(actionCreators.insertSlot(beforeSlotID));
     },
-    endDay: () => {
-      dispatch(actionCreators.endDay());
+    endSlot: (slotID) => {
+      dispatch(actionCreators.endSlot(slotID));
     },
     markEditable: (slotID) => {
       dispatch(actionCreators.markEditable(slotID));

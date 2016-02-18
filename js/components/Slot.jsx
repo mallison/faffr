@@ -30,12 +30,20 @@ export default class Slot extends React.Component {
   render() {
     let { id, editableSlot } = this.props;
     let isEditable = editableSlot === id;
+    let heading;
+    if (isEditable) {
+      heading = this._renderTaskAndTimeEditor();
+    } else {
+      heading = [
+        this._renderTaskAndTime(),
+        ' ',
+        this._renderControls()
+      ];
+    }
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          {isEditable ?
-           this._renderTaskAndTimeEditor() :
-           this._renderTaskAndTime()}
+          {heading}
         </div>
         <div className="panel-body">
           <div className="form-group">
@@ -70,15 +78,19 @@ export default class Slot extends React.Component {
   }
 
   _renderTaskAndTime() {
-    return [
+    return (
       <label htmlFor={this._id}>
         {this.props.start.toLocaleTimeString()}
         {this.props.end ? [' - ', this.props.end.toLocaleTimeString()] : null}
         {' '}
         {this.props.task}
         {' '}
-      </label>,
-      ' ',
+      </label>
+    );
+  }
+
+  _renderControls() {
+    let controls = [
       <button
               className="btn btn-primary btn-xs"
               onClick={() => this.props.markEditable(this.props.id)}
@@ -105,5 +117,19 @@ export default class Slot extends React.Component {
         </span>
       </button>
     ];
+    if (!this.props.end) {
+      controls.push(' ');
+      controls.push(
+        <button
+                className="btn btn-warning btn-xs"
+                onClick={() => this.props.endSlot(this.props.id)}
+                ariaLabel="End slot"
+                >
+          <span className="glyphicon glyphicon-stop" aria-hidden="true">
+          </span>
+        </button>
+      );
+    }
+    return controls;
   }
 }

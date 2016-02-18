@@ -66,9 +66,10 @@ export function insertSlot(beforeSlotID) {
   };
 }
 
-export function endDay() {
+export function endSlot(slotID) {
   return {
-    type: 'end'
+    type: 'END_SLOT',
+    slotID
   };
 }
 

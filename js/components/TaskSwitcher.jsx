@@ -64,21 +64,7 @@ class TaskSwitcher extends React.Component {
                   >
           </span>
         </button>
-        {' '}
-        {this._renderStop()}
       </div>
-    );
-  }
-
-  _renderStop() {
-    return (
-      <button
-              className="btn btn-success"
-              onClick={this.props.endDay}
-              ariaLabel="End"
-              >
-        <span className="glyphicon glyphicon-stop" aria-hidden="true"></span>
-      </button>
     );
   }
 

@@ -75,12 +75,13 @@ export default function reduce(state = [], action) {
     let slotIndex = getSlotIndex(newState, action.slotID);
     newState.splice(slotIndex, 1);
 
-  } else if (action.type === 'end') {
+  } else if (action.type === 'END_SLOT') {
     if (newState.length) {
-      let lastSlot = newState[newState.length - 1];
-      lastSlot = {...lastSlot};
-      lastSlot.end = new Date();
-      newState.splice(newState.length - 1, 1, lastSlot);
+      let slotIndex = getSlotIndex(newState, action.slotID);
+      let slot = newState[slotIndex];
+      slot = {...slot};
+      slot.end = new Date();
+      newState.splice(slotIndex, 1, slot);
     }
   }
   return newState;
