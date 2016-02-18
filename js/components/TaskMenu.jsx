@@ -34,7 +34,7 @@ export default class TaskMenu extends React.Component {
               value={selected}
               onChange={() => this.props.selectTask([...path, select.value])}
               >
-        <option>--- Choose task ---</option>
+        <option></option>
         {tasks.map(t => <option key={t.name} value={t.name}>{t.name}</option>)}
       </select>
     ];
