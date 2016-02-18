@@ -1,23 +1,71 @@
 import React from 'react';
 
-import { spaceComponents } from './utils';
+import AddTask from '../containers/AddTask';
 
-// TODO is there best practice for hierarchical data (on mobile)?
-const TaskMenu = ({ tasks, task, selectedTask, selectTask }) => {
+export default class TaskMenu extends React.Component {
+  state = {
+    addingNewTaskAt: null
+  };
+
+  render() {
+    return (
+      this.state.addingNewTaskAt === null ?
+        <TaskSelect
+                {...this.props}
+                onChange={this._onChange}
+        />
+        :
+        <AddTask
+                placeholder={`New ${this.state.addingNewTaskAt} task`}
+                onAddTask={this._onAddTask}
+        />
+    );
+  }
+
+  _onChange = (e) => {
+    let value = e.target.value;
+    if (value.substr(0, 1) === '+') {
+      this.setState({addingNewTaskAt: value});
+    } else {
+      this.props.selectTask(value);
+      this.setState({addingNewTaskAt: null});
+    }
+  };
+
+  _onAddTask = (name) => {
+    let ancestors = this.state.addingNewTaskAt.substr(1).split('.');
+    this.setState({addingNewTaskAt: null});
+    this.props.addTask(name, ancestors);
+  };
+}
+
+const TaskSelect = ({ tasks, task, selectedTask, onChange }) => {
   return (
     <select
             className="form-control"
             value={selectedTask || task}
-            onChange={(e) => selectTask(e.target.value)}
+            onChange={onChange}
             >
       <option value="">- Choose task -</option>
-      {tasks.map(t => renderTask(t))}
+      {renderTasks(tasks)}
     </select>
   );
 };
 
-const renderTask = (task, level=0) => {
+const renderTasks = (tasks, parentID, level=0) => {
   let prefix = Array(2 * level + 1).join('-');
+  let menuItems = tasks.map(t => renderTask(t, level, prefix));
+  menuItems.push(
+    <option
+            value={`+${parentID}`}
+            >
+      {prefix} [New task]
+    </option>
+  );
+  return menuItems;
+};
+
+const renderTask = (task, level, prefix) => {
   let options = [
     <option
             key={task.name}
@@ -28,10 +76,8 @@ const renderTask = (task, level=0) => {
   ];
   if (task.subtasks.length) {
     options = options.concat(
-      task.subtasks.map(t => renderTask(t, level + 1))
+      renderTasks(task.subtasks, task.id, level + 1)
     );
   }
   return options;
 };
-
-export default TaskMenu;

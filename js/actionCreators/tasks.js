@@ -1,8 +1,8 @@
-export function addTask(name, parent) {
+export function addTask(name, ancestors) {
   return {
     type: 'ADD_TASK',
     name,
-    parent
+    ancestors
   };
 }
 

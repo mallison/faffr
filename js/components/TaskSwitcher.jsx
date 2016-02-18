@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { connect } from 'react-redux';
-import { selectTask } from '../actionCreators/tasks';
+import { selectTask, addTask } from '../actionCreators/tasks';
 import TaskMenu from './TaskMenu';
 
 class TaskSwitcher extends React.Component {
@@ -127,7 +127,8 @@ TaskSwitcher = connect(
   }),
   dispatch => {
     return {
-      selectTask: (taskID) => dispatch(selectTask(taskID))
+      selectTask: (taskID) => dispatch(selectTask(taskID)),
+      addTask: (name, ancestors) => dispatch(addTask(name, ancestors))
     };
   }
 )(TaskSwitcher);

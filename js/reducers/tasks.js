@@ -1,101 +1,38 @@
 import update from 'react-addons-update';
 
-const TASKS = [
-  {
-    name: 'admin',
-    colour: 'blue',
-    subtasks: [],
-  },
-  {
-    name: 'afk',
-    colour: 'red',
-    subtasks: []
-  },
-  {
-    name: 'coding',
-    colour: 'yellow',
-    subtasks: [
-      {
-        name: 'faffr',
-        colour: 'blue',
-        subtasks: []
-      },
-      {
-        name: 'repr',
-        colour: 'blue',
-        subtasks: []
-      }
-    ]
-  },
-  {
-    name: 'coffee',
-    colour: 'brown',
-    subtasks: []
-  },
-  {
-    name: 'eat',
-    colour: 'green',
-    subtasks: []
-  },
-  {
-    name: 'job',
-    colour: '#cab',
-    subtasks: []
-  },
-  {
-    name: 'misc',
-    colour: '#ccc',
-    subtasks: []
-  },
-  {
-    name: 'therapy',
-    colour: 'cyan',
-    subtasks: []
-  },
-  {
-    name: 'tv',
-    colour: 'orange',
-    subtasks: []
-  },
-  {
-    name: 'workout',
-    colour: 'purple',
-    subtasks: []
-  }
-];
-
-function setTaskIDs() {
-  TASKS.forEach(t => setTaskID(t));
-}
-
-function setTaskID(task, parent) {
-  let taskID = task.name;
-  if (parent) {
-    taskID = `${parent}.${taskID}`;
-  }
-  task.id = taskID;
-  task.subtasks.map(t => setTaskID(t, taskID));
-}
-
-setTaskIDs();
+import TASKS from './dummyTasks';
 
 export default function reduce(state = TASKS, action) {
   if (action.type === 'ADD_TASK') {
+    let taskID = [...action.ancestors, action.name].join('.');
     let task = {
       name: action.name,
-      children: [],
-      colour: '#123'
+      subtasks: [],
+      colour: '#123',
+      id: taskID
     };
-    if (!action.parent) {
-      state = update(state, {$push: [task]});
-    } else {
-      state = addSubtask(state, parent, task);
+    if (!action.ancestors) {
+      return update(state, {$push: [task]});
     }
+    return addSubtask(state, action.ancestors, task);
   }
   return state;
 }
 
-function addSubtask(state, parent, task) {
-  let parentIndex = state.findIndex(t => t === parent); // TODO compare by ref prob not good idea?
-  return update(state, {[parentIndex]: {'subtasks': {$push: [task]}}});
+function addSubtask(state, ancestors, task) {
+  let updateOperation = {};
+  let node = state;
+  let op = updateOperation;
+  ancestors.forEach((a, i) => {
+    let taskID = ancestors.slice(i).join('.');
+    let taskIndex = node.findIndex(t => t.id === taskID);
+    op[taskIndex] = {};
+    op = op[taskIndex];
+    node = node[taskIndex];
+    op.subtasks = {};
+    op = op.subtasks;
+    node = node.subtasks;
+  });
+  op.$push = [task];
+  return update(state, updateOperation);
 }
