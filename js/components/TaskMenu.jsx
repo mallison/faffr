@@ -1,12 +1,14 @@
 import React from 'react';
 
+import { spaceComponents } from './utils';
+
 // Crude multi-level select to be replaced with a nice component
 export default class TaskMenu extends React.Component {
   render() {
     let { tasks } = this.props;
     return (
       <div>
-        {this._renderTasks(tasks)}
+        {spaceComponents(this._renderTasks(tasks))}
       </div>
     );
   }
