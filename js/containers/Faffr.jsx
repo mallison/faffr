@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 
 import Faffr from '../components/Faffr';
-import * as actionCreators from '../actionCreators/api';
+import * as APIActionCreators from '../actionCreators/api';
+import * as slotActionCreators from '../actionCreators/slots';
 
 // TODO do I need this identity function?
 const mapStateToProps = state => state;
@@ -10,29 +11,29 @@ const mapStateToProps = state => state;
 const mapDispatchToProps = (dispatch) => {
   return {
     save: (slots, tasks) => {
-      dispatch(actionCreators.save(slots, tasks));
+      dispatch(APIActionCreators.save(slots, tasks));
     },
     addSlot: (task, start) => {
-      dispatch(actionCreators.addSlot(task, start));
+      dispatch(slotActionCreators.addSlot(task, start));
     },
-    // TODO possibly this could be two separate actionCreators?
+    // TODO possibly this could be two separate slotActionCreators?
     updateSlot: (slotID, task, start) => {
-      dispatch(actionCreators.updateSlot(slotID, task, start));
+      dispatch(slotActionCreators.updateSlot(slotID, task, start));
     },
     updateNote: (slotID, note) => {
-      dispatch(actionCreators.updateNote(slotID, note));
+      dispatch(slotActionCreators.updateNote(slotID, note));
     },
     deleteSlot: (slotID) => {
-      dispatch(actionCreators.deleteSlot(slotID));
+      dispatch(slotActionCreators.deleteSlot(slotID));
     },
     insertSlot: (beforeSlotID) => {
-      dispatch(actionCreators.insertSlot(beforeSlotID));
+      dispatch(slotActionCreators.insertSlot(beforeSlotID));
     },
     endSlot: (slotID) => {
-      dispatch(actionCreators.endSlot(slotID));
+      dispatch(slotActionCreators.endSlot(slotID));
     },
     markEditable: (slotID) => {
-      dispatch(actionCreators.markEditable(slotID));
+      dispatch(slotActionCreators.markEditable(slotID));
     }
   };
 };
