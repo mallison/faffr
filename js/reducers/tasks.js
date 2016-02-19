@@ -1,8 +1,6 @@
 import update from 'react-addons-update';
 
-import dummyTasks from './dummyTasks';
-
-export default function reduce(state = dummyTasks, action) {
+export default function reduce(state = [], action) {
   if (action.type === 'LOAD_APP_DATA_SUCCESS') {
     return action.data.tasks;
   }
