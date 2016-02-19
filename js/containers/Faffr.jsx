@@ -29,8 +29,8 @@ const mapDispatchToProps = (dispatch) => {
     insertSlot: (beforeSlotID) => {
       dispatch(slotActionCreators.insertSlot(beforeSlotID));
     },
-    endSlot: (slotID) => {
-      dispatch(slotActionCreators.endSlot(slotID));
+    endSlot: (slotID, endTime) => {
+      dispatch(slotActionCreators.endSlot(slotID, endTime));
     },
     markEditable: (slotID) => {
       dispatch(slotActionCreators.markEditable(slotID));

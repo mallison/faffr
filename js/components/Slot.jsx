@@ -2,8 +2,17 @@ import React from 'react';
 
 import TaskSwitcher from './TaskSwitcher';
 import getID from '../utils/getID';
+import * as utils from '../utils/dateTime';
+
 
 export default class Slot extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      endTime: this.props.end ? utils.dateToTime(this.props.end) : ''
+    };
+  }
+
   componentWillMount() {
     this._id = getID();
   }
@@ -43,7 +52,7 @@ export default class Slot extends React.Component {
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          {heading}
+          <div className="form-inline">{heading}</div>
         </div>
         <div className="panel-body">
           <div className="form-group">
@@ -115,21 +124,31 @@ export default class Slot extends React.Component {
               >
         <span className="glyphicon glyphicon-plus" aria-hidden="true">
         </span>
+      </button>,
+      ' ',
+      <input
+              className="form-control input-sm"
+              type="time"
+              ref={time => this._time = time}
+              value={this.state.endTime}
+              onChange={() => this.setState({endTime: this._time.value})}
+      />,
+      ' ',
+      <button
+              className="btn btn-warning btn-xs"
+              onClick={this._endSlot}
+              ariaLabel="End slot"
+              >
+        <span className="glyphicon glyphicon-stop" aria-hidden="true">
+        </span>
       </button>
     ];
-    if (!this.props.end) {
-      controls.push(' ');
-      controls.push(
-        <button
-                className="btn btn-warning btn-xs"
-                onClick={() => this.props.endSlot(this.props.id)}
-                ariaLabel="End slot"
-                >
-          <span className="glyphicon glyphicon-stop" aria-hidden="true">
-          </span>
-        </button>
-      );
-    }
-    return controls;
+    return <div className="form-group">{controls}</div>;
   }
+
+  _endSlot = () => {
+    let endTime = this._time.value ? utils.timeToDate(this._time.value) :  new Date();
+    this.props.endSlot(this.props.id, endTime);
+    this.setState({endTime: utils.dateToTime(endTime)});
+  };
 }

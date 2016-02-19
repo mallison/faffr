@@ -88,7 +88,7 @@ export default function reduce(state = [], action) {
       let slotIndex = getSlotIndex(newState, action.slotID);
       let slot = newState[slotIndex];
       slot = {...slot};
-      slot.end = new Date();
+      slot.end = action.endTime
       newState.splice(slotIndex, 1, slot);
     }
   }

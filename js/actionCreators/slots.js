@@ -43,10 +43,11 @@ export function insertSlot(beforeSlotID) {
   };
 }
 
-export function endSlot(slotID) {
+export function endSlot(slotID, endTime) {
   return {
     type: 'END_SLOT',
-    slotID
+    slotID,
+    endTime
   };
 }
 
