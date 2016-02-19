@@ -1,9 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
-
 import { connect } from 'react-redux';
 import { selectTask, addTask } from '../actionCreators/tasks';
 import TaskMenu from './TaskMenu';
+import * as utils from '../utils/dateTime';
+
 
 class TaskSwitcher extends React.Component {
   constructor(props) {
@@ -95,27 +96,11 @@ class TaskSwitcher extends React.Component {
   };
 
   _getTime(datetime) {
-    // TODO no native strftime?
-    let hours = datetime.getHours();
-    hours = this._zFill(hours);
-    let minutes = datetime.getMinutes();
-    minutes = this._zFill(minutes);
-    return `${hours}:${minutes}`;
-  }
-
-  _zFill(number) {
-    if (number < 10) {
-      return `0${number}`;
-    }
-    return number;
+    return utils.dateToTime(datetime);
   }
 
   _getDateTime(time) {
-    let [hours, minutes] = time.split(':');
-    let date = new Date();
-    date.setHours(parseInt(hours, 10));
-    date.setMinutes(parseInt(minutes, 10));
-    return date;
+    return utils.timeToDate(time);
   }
 }
 

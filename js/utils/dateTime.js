@@ -7,6 +7,31 @@ export function dateFromISODateString(dateString) {
   return new Date(dateString);
 }
 
+export function timeToDate(hhmm, day) {
+  // TODO need day argument if updating slots not ending today
+  let [hours, minutes] = hhmm.split(':');
+  let date = new Date();
+  date.setHours(parseInt(hours, 10));
+  date.setMinutes(parseInt(minutes, 10));
+  return date;
+}
+
+export function dateToTime(date) {
+  // TODO no native strftime!?
+  let hours = date.getHours();
+  hours = zeroFill(hours);
+  let minutes = date.getMinutes();
+  minutes = zeroFill(minutes);
+  return `${hours}:${minutes}`;
+}
+
+function zeroFill(number) {
+  if (number < 10) {
+    return `0${number}`;
+  }
+  return number;
+}
+
 export function isDateInMonth(date, year, month) {
   return date.getMonth() === month && date.getFullYear() === year;
 }
