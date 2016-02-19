@@ -31,3 +31,10 @@ export function getDeltaInMinutes(start, end) {
 export function getMinutesInDayAfterHour(hour) {
   return 60 * (24 - hour);
 }
+
+
+export function getMillisecondsAsHoursAndMinutes(milliseconds) {
+  let hours = Math.floor(milliseconds / (3600 * 1000));
+  let minutes = Math.floor(milliseconds % (3600 * 1000) / (60 * 1000));
+  return `${hours}h ${minutes}m`;
+}

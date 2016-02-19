@@ -1,6 +1,6 @@
-import getID from './utils/getID';
-import SLOTS from './dummyInitialState';
-import { dateFromISODateString } from './utils/dateTime';
+import getID from '../utils/getID';
+import SLOTS from '../dummyInitialState';
+import { dateFromISODateString } from '../utils/dateTime';
 
 const initialState = SLOTS;  // for debug
 
@@ -41,14 +41,22 @@ export default function reduce(state, action) {
       start,
       id: getID()
     };
-    newState = [...newState, slot];
+    if (newState.length) {
+      let slotIndex = newState.length - 1;
+      let lastSlot = {...newState[slotIndex]};
+      if (!lastSlot.end) {
+        lastSlot.end = start;
+        newState.splice(slotIndex, 1, lastSlot);
+      }
+    }
+    newState.push(slot);
 
   } else if (action.type === 'insert') {
-    let slotIndex = getSlotIndex(newState, action.slotID);
+    let slotIndex = getSlotIndex(newState, action.beforeSlotID);
     let slot = {
       task: '',
       start: newState[slotIndex].start,
-      id: getID()
+      id: action.newSlotID
     };
     newState.splice(slotIndex, 0, slot);
 
@@ -75,12 +83,13 @@ export default function reduce(state, action) {
     let slotIndex = getSlotIndex(newState, action.slotID);
     newState.splice(slotIndex, 1);
 
-  } else if (action.type === 'end') {
+  } else if (action.type === 'END_SLOT') {
     if (newState.length) {
-      let lastSlot = newState[newState.length - 1];
-      lastSlot = {...lastSlot};
-      lastSlot.end = new Date();
-      newState.splice(newState.length - 1, 1, lastSlot);
+      let slotIndex = getSlotIndex(newState, action.slotID);
+      let slot = newState[slotIndex];
+      slot = {...slot};
+      slot.end = new Date();
+      newState.splice(slotIndex, 1, slot);
     }
   }
   return newState;

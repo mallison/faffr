@@ -1,28 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import request from 'superagent';
 import thunkMiddleware from 'redux-thunk';
-
-import FaffrContainer from './components/FaffrContainer';
-
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
-import slotReducer from './reducer';
-
-function fetchSlots() {
-  return (dispatch) => {
-    return request
-      .get('/slots')
-      .end((err, res) => dispatch({
-        type: 'receiveSlots',
-        slots: res.body
-      }));
-  };
-}
+import Faffr from './containers/Faffr';
+// TODO add index.js to reducers
+import slots from './reducers/slots';
+import tasks from './reducers/tasks';
+import editableSlot from './reducers/editableSlot';
+import selectedTask from './reducers/selectedTask';
+import { fetchSlots } from './actionCreators/slots';
 
 const store = createStore(
-  slotReducer,
+  combineReducers({
+    slots,
+    editableSlot,
+    tasks,
+    selectedTask
+  }),
   applyMiddleware(
     thunkMiddleware
   )
@@ -33,7 +29,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-    <FaffrContainer />
+    <Faffr />
     </Provider>,
   document.getElementById('faffr')
 );

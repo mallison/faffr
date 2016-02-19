@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import { getMillisecondsAsHoursAndMinutes } from '../utils/dateTime';
+
 export default class Visualiser extends React.Component {
   /* componentDidMount() {
      this._tickInterval = setInterval(this._tick, 1000);
@@ -46,7 +48,30 @@ export default class Visualiser extends React.Component {
     let maxDuration = durations[0].duration;
     return (
       <div>
-        {durations.map(d => <p style={{backgroundColor: '#ccc', width: 400 * d.duration / maxDuration}}>{d.task}</p>)}
+        {durations.map(this._renderDuration.bind(this, maxDuration))}
+      </div>
+    );
+  }
+
+  _renderDuration(maxDuration, d) {
+    let taskConfig = this.props.tasks.find(t => t.name === d.task);
+    let colour;
+    if (taskConfig) {
+      colour = taskConfig.colour;
+    } else {
+      colour = '#ccc';
+    }
+    let barStyle = {
+      backgroundColor: colour,
+      width: `${100 * d.duration / maxDuration}%`
+    };
+    return (
+      <div className="progress">
+        <div className="progress-bar" role="progressbar" aria-valuenow={d.duration} aria-valuemin="0" aria-valuemax={maxDuration} style={barStyle}>
+          <p style={{'float': 'left', paddingLeft: 5}}>{d.task}</p>
+          <p style={{'float': 'right', paddingRight: 5}}>{getMillisecondsAsHoursAndMinutes(d.duration)}</p>
+
+        </div>
       </div>
     );
   }

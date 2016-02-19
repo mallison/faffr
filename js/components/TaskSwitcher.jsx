@@ -1,13 +1,20 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import classnames from 'classnames';
 
-export default class TaskSwitcher extends React.Component {
+import { connect } from 'react-redux';
+import { selectTask, addTask } from '../actionCreators/tasks';
+import TaskMenu from './TaskMenu';
+
+class TaskSwitcher extends React.Component {
   constructor(props) {
     super(props);
-    let start = this.props.start === undefined ? null : this.props.start;
-    this.state = {
-      start: start,
-      task: this.props.task
-    };
+    let start;
+    if (!props.start) {
+      start = null;
+    } else {
+      start = props.start;
+    }
+    this.state = {start};
   }
 
   componentDidMount() {
@@ -15,45 +22,48 @@ export default class TaskSwitcher extends React.Component {
   }
 
   render() {
+    let glyphClassNames = classnames({
+      glyphicon: true,
+      'glyphicon-play': !this.props.withSave,
+      'glyphicon-ok': this.props.withSave
+    });
+    let buttonAction;
+    if (this.props.withSave) {
+      buttonAction = 'Update';
+    } else {
+      buttonAction = 'Start';
+    }
     return (
-      <div style={{display: 'inline-block'}}>
+      <div>
         <div className="form-group">
-          <label>
-            Time:{' '}
-            <input
-                    className="form-control"
-                    ref={i => this._input = i}
-                    type="time"
-                    value={this.state.start === null ? '' : this._getTime(this.state.start)}
-                    onChange={this._updateTime}
-            />
-          </label>
+          <input
+                  className="form-control"
+                  ref={i => this._input = i}
+                  type="time"
+                  value={this.state.start === null ? '' : this._getTime(this.state.start)}
+                  onChange={this._updateTime}
+          />
         </div>
         {' '}
         <div className="form-group">
-          <label>
-            Task: {' '}
-            <select
-                    className="form-control"
-                    defaultValue={this.state.task}
-                    onChange={this._onTaskChange}
-                    >
-              <option value="">-- Choose task --</option>
-              {this.props.tasks.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
-          </label>
+          <TaskMenu {...this.props} />
         </div>
         {' '}
-        {this.props.withSave ?
-         <button
-         className="btn btn-primary"
-         onClick={this._onSave}
-         >
-         Save
-         </button>
-         :
-         null
-         }
+        <button
+                type="submit"
+                className="btn btn-primary"
+                aria-label={buttonAction}
+                onClick={this._onTaskChange}
+                >
+          <span className="sr-only">
+            {buttonAction}
+          </span>
+          <span
+                  className={glyphClassNames}
+                  aria-hidden="true"
+                  >
+          </span>
+        </button>
       </div>
     );
   }
@@ -63,24 +73,15 @@ export default class TaskSwitcher extends React.Component {
     this.setState({start: start});
   };
 
-  _onTaskChange = (e) => {
-    if (this.props.withSave) {
-      this.setState({task: e.target.value});
-      return;
-    }
+  _onTaskChange = () => {
+    let { selectedTask } = this.props;
     // TODO check start time is > start time of last slot
-    let task = e.target.value;
-    e.target.value = '';
     let start = this.state.start;
+    // TODO this default time should be in action creator
     if (!start) {
       start = this._getCurrentTime();
     }
-    this._startTask(task, start);
-  };
-
-  _onSave = (e) => {
-    e.preventDefault();
-    this._startTask(this.state.task, this.state.start);
+    this._startTask(selectedTask, start);
   };
 
   _startTask(task, start) {
@@ -117,3 +118,19 @@ export default class TaskSwitcher extends React.Component {
     return date;
   }
 }
+
+// TODO move container to other file?
+TaskSwitcher = connect(
+  state => ({
+    tasks: state.tasks,
+    selectedTask: state.selectedTask
+  }),
+  dispatch => {
+    return {
+      selectTask: (taskID) => dispatch(selectTask(taskID)),
+      addTask: (name, ancestors) => dispatch(addTask(name, ancestors))
+    };
+  }
+)(TaskSwitcher);
+
+export default TaskSwitcher;

@@ -3,38 +3,47 @@ import React, { PropTypes } from 'react';
 import Visualiser from './Visualiser';
 import Month from './Month';
 import Week from './Week';
-import Slots from './Slots';
+import Day from './Day';
+import Slot from './Slot';
+import TaskSwitcher from './TaskSwitcher';
 import * as slot from '../slot';
-
-const TASKS = [
-  {name: 'admin', colour: 'blue'},
-  {name: 'afk', colour: 'red'},
-  {name: 'coding', colour: 'yellow'},
-  {name: 'coffee', colour: 'brown'},
-  {name: 'eat', colour: 'green'},
-  {name: 'job', colour: '#cab'},
-  {name: 'misc', colour: '#ccc'},
-  {name: 'therapy', colour: 'cyan'},
-  {name: 'tv', colour: 'orange'},
-  {name: 'workout', colour: 'purple'}
-];
 
 export default class Faffr extends React.Component {
   render() {
     let today = new Date();
+    let todaysSlots = slot.getSlotsInDay(this.props.slots, today);
+    let todaysSlotsReversed = [...todaysSlots];
+    todaysSlotsReversed.reverse();
     return (
       <div className="container">
         <h1>Faffr</h1>
-        <Week slots={this.props.slots} tasks={TASKS} />
+        <p>
+          <button
+                  className="btn btn-success"
+                  onClick={() => this.props.save(this.props.slots)}
+                  >
+            Save
+          </button>
+        </p>
         <div className="row">
-          <div className="col-md-6">
-            <Slots {...this.props} tasks={TASKS} />
+          <div className="col-md-4 col-md-push-4">
+            <Visualiser
+                    slots={todaysSlots}
+                    tasks={this.props.tasks}
+            />
           </div>
-          <div className="col-md-3">
-            <Visualiser slots={slot.getSlotsInDay(this.props.slots, new Date())} />
+          <div className="col-md-4 col-md-pull-4">
+            <div className="form-inline" style={{paddingBottom: 15}}>
+              <TaskSwitcher
+                      onStartTask={(task, start) => this.props.addSlot(task, start)}
+                      tasks={this.props.tasks} />
+            </div>
+            {todaysSlotsReversed.map(s => <Slot key={s.id} {...s} {...this.props} />)}
+          </div>
+          <div className="col-md-4">
+            <Day {...this.props} slots={todaysSlots} day={today} />
           </div>
         </div>
-        <Month slots={this.props.slots} tasks={TASKS} year={today.getFullYear()} month={today.getMonth()} />
       </div>
     );
   }
