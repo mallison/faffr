@@ -20,7 +20,7 @@ export default function reduce(state = [], action) {
        task: s[1][0],
        start: new Date(s[0])
        })); */
-    let slots = action.data.slots.map(s => {
+    let slots = action.slots.map(s => {
       let slot = {
         start: dateFromISODateString(s.start),
         task: s.task,

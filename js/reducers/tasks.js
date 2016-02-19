@@ -1,9 +1,11 @@
 import update from 'react-addons-update';
 
-export default function reduce(state = [], action) {
-  if (action.type === 'LOAD_APP_DATA_SUCCESS') {
-    return action.data.tasks;
-  }
+import dummyTasks from './dummyTasks';
+
+export default function reduce(state = dummyTasks, action) {
+  // if (action.type === 'LOAD_APP_DATA_SUCCESS') {
+  //   return action.data.tasks;
+  // }
 
   if (action.type === 'ADD_TASK') {
     let taskID = [...action.ancestors, action.name].join('.');
