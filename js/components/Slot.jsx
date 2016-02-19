@@ -155,6 +155,7 @@ export default class Slot extends React.Component {
                             })}
           />
         </div>
+        {' '}
         <button
                 className="btn btn-primary btn-xs"
                 onClick={() => this._updateSlot()}
