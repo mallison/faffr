@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
     addSlot: (task, start) => {
       dispatch(slotActionCreators.addSlot(task, start));
     },
+    // Could move these to Slot container as only component where these are needed
     updateSlot: (slotID, task, start, end) => {
       dispatch(slotActionCreators.updateSlot(slotID, task, start, end));
     },
