@@ -46,8 +46,14 @@ export default class Visualiser extends React.Component {
     );
     durations.sort((a, b) => b.duration - a.duration);
     let maxDuration = durations[0].duration;
+    let dayDuration = new Date() - slots[0].start;
     return (
       <div>
+        <p>
+          <strong>
+            {getMillisecondsAsHoursAndMinutes(dayDuration)}
+          </strong>
+        </p>
         {durations.map(this._renderDuration.bind(this, maxDuration))}
       </div>
     );
