@@ -18,6 +18,7 @@ export default class TaskMenu extends React.Component {
         <AddTask
                 placeholder={`New ${this.state.addingNewTaskAt} task`}
                 onAddTask={this._onAddTask}
+                onCancel={this._cancelAddTask}
         />
     );
   }
@@ -36,6 +37,10 @@ export default class TaskMenu extends React.Component {
     let ancestors = this.state.addingNewTaskAt.substr(1).split('.');
     this.setState({addingNewTaskAt: null});
     this.props.addTask(name, ancestors);
+  };
+
+  _cancelAddTask = () => {
+    this.setState({addingNewTaskAt: null});
   };
 }
 

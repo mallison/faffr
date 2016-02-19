@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addTask } from '../actionCreators/tasks';
 
-let AddTask = ({ placeholder, onAddTask }) => {
+let AddTask = ({ placeholder, onAddTask, onCancel }) => {
   let input;
 
   return (
@@ -25,6 +25,15 @@ let AddTask = ({ placeholder, onAddTask }) => {
                        }}}>
         <span className="sr-only">Add Task</span>
         <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
+      </button>
+      {' '}
+      <button
+              className="btn btn-warning"
+              aria-label="Cancel"
+              onClick={onCancel}
+              >
+        <span className="sr-only">Cancel</span>
+        <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
       </button>
     </div>
   );
