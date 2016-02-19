@@ -61,12 +61,13 @@ export default function reduce(state = [], action) {
     newState.splice(slotIndex, 0, slot);
 
   } else if (action.type === 'update') {
-    let { task, start } = action;
+    let { task, start, end } = action;
     let slotIndex = getSlotIndex(newState, action.slotID);
     let slot = newState[slotIndex];
     slot = {...slot};
     slot.task = task;
     slot.start = start;
+    slot.end = end;
     newState.splice(slotIndex, 1, slot);
     // We have to re-sort here as the update may have changed the slot
     // start time
@@ -83,14 +84,6 @@ export default function reduce(state = [], action) {
     let slotIndex = getSlotIndex(newState, action.slotID);
     newState.splice(slotIndex, 1);
 
-  } else if (action.type === 'END_SLOT') {
-    if (newState.length) {
-      let slotIndex = getSlotIndex(newState, action.slotID);
-      let slot = newState[slotIndex];
-      slot = {...slot};
-      slot.end = action.endTime
-      newState.splice(slotIndex, 1, slot);
-    }
   }
   return newState;
 }

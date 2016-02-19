@@ -16,9 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     addSlot: (task, start) => {
       dispatch(slotActionCreators.addSlot(task, start));
     },
-    // TODO possibly this could be two separate slotActionCreators?
-    updateSlot: (slotID, task, start) => {
-      dispatch(slotActionCreators.updateSlot(slotID, task, start));
+    updateSlot: (slotID, task, start, end) => {
+      dispatch(slotActionCreators.updateSlot(slotID, task, start, end));
     },
     updateNote: (slotID, note) => {
       dispatch(slotActionCreators.updateNote(slotID, note));
@@ -28,9 +27,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     insertSlot: (beforeSlotID) => {
       dispatch(slotActionCreators.insertSlot(beforeSlotID));
-    },
-    endSlot: (slotID, endTime) => {
-      dispatch(slotActionCreators.endSlot(slotID, endTime));
     },
     markEditable: (slotID) => {
       dispatch(slotActionCreators.markEditable(slotID));

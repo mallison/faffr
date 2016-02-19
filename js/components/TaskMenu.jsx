@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import AddTask from '../containers/AddTask';
 
@@ -44,10 +45,14 @@ export default class TaskMenu extends React.Component {
   };
 }
 
-const TaskSelect = ({ tasks, task, selectedTask, onChange }) => {
+const TaskSelect = ({ tasks, task, selectedTask, onChange, size }) => {
+  let classes = classnames({
+    'form-control': true,
+    'input-sm': size === 'small'
+  });
   return (
     <select
-            className="form-control"
+            className={classes}
             value={selectedTask || task}
             onChange={onChange}
             >

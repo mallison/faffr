@@ -10,13 +10,13 @@ export function addSlot(task, start) {
   };
 }
 
-// TODO possibly this could be two separate actions?
-export function updateSlot(slotID, task, start) {
+export function updateSlot(slotID, task, start, end) {
   return {
     type: 'update',
     slotID,
     task,
-    start
+    start,
+    end
   };
 }
 
@@ -40,14 +40,6 @@ export function insertSlot(beforeSlotID) {
     type: 'insert',
     beforeSlotID,
     newSlotID: getID()
-  };
-}
-
-export function endSlot(slotID, endTime) {
-  return {
-    type: 'END_SLOT',
-    slotID,
-    endTime
   };
 }
 

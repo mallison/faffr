@@ -25,15 +25,9 @@ class TaskSwitcher extends React.Component {
   render() {
     let glyphClassNames = classnames({
       glyphicon: true,
-      'glyphicon-play': !this.props.withSave,
-      'glyphicon-ok': this.props.withSave
+      'glyphicon-play': true
     });
-    let buttonAction;
-    if (this.props.withSave) {
-      buttonAction = 'Update';
-    } else {
-      buttonAction = 'Start';
-    }
+    let buttonAction = 'Start';
     return (
       <div>
         <div className="form-group">

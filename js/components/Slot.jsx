@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TaskSwitcher from './TaskSwitcher';
+import TaskMenu from './TaskMenu';
 import getID from '../utils/getID';
 import * as utils from '../utils/dateTime';
 
@@ -8,9 +8,9 @@ import * as utils from '../utils/dateTime';
 export default class Slot extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      endTime: this.props.end ? utils.dateToTime(this.props.end) : ''
-    };
+    let { task, start, end } = this.props;
+    // TODO move state to container (and store?)
+    this.state = { task, start, end };
   }
 
   componentWillMount() {
@@ -43,16 +43,12 @@ export default class Slot extends React.Component {
     if (isEditable) {
       heading = this._renderTaskAndTimeEditor();
     } else {
-      heading = [
-        this._renderTaskAndTime(),
-        ' ',
-        this._renderControls()
-      ];
+      heading = this._renderTaskAndTime();
     }
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          <div className="form-inline">{heading}</div>
+          {heading}
         </div>
         <div className="panel-body">
           <div className="form-group">
@@ -72,83 +68,110 @@ export default class Slot extends React.Component {
     );
   }
 
-  _renderTaskAndTimeEditor() {
+  _renderTaskAndTime() {
     return (
       <div className="form-inline">
-        <TaskSwitcher
-                tasks={this.props.tasks}
-                task={this.props.task}
-                start={this.props.start}
-                withSave={true}
-                onStartTask={(task, start) => this.props.updateSlot(this.props.id, task, start)}
-        />
+        <label htmlFor={this._id}>
+          {this.props.start.toLocaleTimeString()}
+          {this.props.end ? [' - ', this.props.end.toLocaleTimeString()] : null}
+          {' '}
+          {this.props.task}
+          {' '}
+        </label>
+        {' '}
+        <button
+                className="btn btn-primary btn-xs"
+                onClick={() => this.props.markEditable(this.props.id)}
+                ariaLabel="Edit"
+                >
+          <span className="glyphicon glyphicon-pencil" aria-hidden="true">
+          </span>
+        </button>
+        {' '}
+        <button
+                className="btn btn-success btn-xs"
+                onClick={() => this.props.insertSlot(this.props.id)}
+                ariaLabel="Insert"
+                >
+          <span className="glyphicon glyphicon-plus" aria-hidden="true">
+          </span>
+        </button>
+        {' '}
+        <button
+                className="btn btn-warning btn-xs"
+                onClick={() => {
+                         let end = new Date();
+                         this._updateSlot(end);
+                         this.setState({end});
+                         }
+                         }
+                ariaLabel="End slot"
+                >
+          <span className="glyphicon glyphicon-stop" aria-hidden="true">
+          </span>
+        </button>
+        {' '}
+        <button
+                className="btn btn-danger btn-xs"
+                onClick={() => this.props.deleteSlot(this.props.id)}
+                ariaLabel="Delete"
+                >
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
       </div>
     );
   }
 
-  _renderTaskAndTime() {
+  _renderTaskAndTimeEditor() {
     return (
-      <label htmlFor={this._id}>
-        {this.props.start.toLocaleTimeString()}
-        {this.props.end ? [' - ', this.props.end.toLocaleTimeString()] : null}
+      <div className="form-inline">
+        <TaskMenu
+                size='small'
+                task={this.state.task}
+                tasks={this.props.tasks}
+                selectTask={task => this.setState({task})}
+        />
         {' '}
-        {this.props.task}
+        <div className="form-group">
+          <input
+                  className="form-control input-sm"
+                  type="time"
+                  ref={startTime => this._startTime = startTime}
+                  value={this.state.start && utils.dateToTime(this.state.start)}
+                  onChange={() => this.setState({
+                            start: this._startTime.value ? utils.timeToDate(this._startTime.value) : ''
+                            })}
+          />
+        </div>
         {' '}
-      </label>
+        <div className="form-group">
+          <input
+                  className="form-control input-sm"
+                  type="time"
+                  ref={endTime => this._endTime = endTime}
+                  value={this.state.end && utils.dateToTime(this.state.end)}
+                  onChange={() => this.setState({
+                            end: this._endTime.value ? utils.timeToDate(this._endTime.value) : ''
+                            })}
+          />
+        </div>
+        <button
+                className="btn btn-primary btn-xs"
+                onClick={() => this._updateSlot()}
+                ariaLabel="Update"
+                >
+          <span className="glyphicon glyphicon-ok" aria-hidden="true">
+          </span>
+        </button>
+      </div>
     );
   }
 
-  _renderControls() {
-    let controls = [
-      <button
-              className="btn btn-primary btn-xs"
-              onClick={() => this.props.markEditable(this.props.id)}
-              ariaLabel="Edit"
-              >
-        <span className="glyphicon glyphicon-pencil" aria-hidden="true">
-        </span>
-      </button>,
-      ' ',
-      <button
-              className="btn btn-danger btn-xs"
-              onClick={() => this.props.deleteSlot(this.props.id)}
-              ariaLabel="Delete"
-              >
-        <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-      </button>,
-      ' ',
-      <button
-              className="btn btn-success btn-xs"
-              onClick={() => this.props.insertSlot(this.props.id)}
-              ariaLabel="Insert"
-              >
-        <span className="glyphicon glyphicon-plus" aria-hidden="true">
-        </span>
-      </button>,
-      ' ',
-      <input
-              className="form-control input-sm"
-              type="time"
-              ref={time => this._time = time}
-              value={this.state.endTime}
-              onChange={() => this.setState({endTime: this._time.value})}
-      />,
-      ' ',
-      <button
-              className="btn btn-warning btn-xs"
-              onClick={this._endSlot}
-              ariaLabel="End slot"
-              >
-        <span className="glyphicon glyphicon-stop" aria-hidden="true">
-        </span>
-      </button>
-    ];
-    return <div className="form-group">{controls}</div>;
-  }
-
-  _endSlot = () => {
-    let endTime = this._time.value ? utils.timeToDate(this._time.value) :  new Date();
-    this.props.endSlot(this.props.id, endTime);
-    this.setState({endTime: utils.dateToTime(endTime)});
+  _updateSlot = (defaultEnd) => {
+    let { task, start, end } = this.state;
+    if (defaultEnd) {
+      end = defaultEnd;
+    }
+    this.props.updateSlot(this.props.id, task, start, end);
   };
 }
