@@ -10,7 +10,7 @@ import slots from './reducers/slots';
 import tasks from './reducers/tasks';
 import editableSlot from './reducers/editableSlot';
 import selectedTask from './reducers/selectedTask';
-import { fetchSlots } from './actionCreators/slots';
+import { fetch } from './actionCreators/api';
 
 const store = createStore(
   combineReducers({
@@ -24,8 +24,8 @@ const store = createStore(
   )
 );
 
-// Load slots from API straightaway
-store.dispatch(fetchSlots());
+// Load tasks and slots from API straightaway
+store.dispatch(fetch());
 
 ReactDOM.render(
     <Provider store={store}>

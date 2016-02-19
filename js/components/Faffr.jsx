@@ -14,13 +14,14 @@ export default class Faffr extends React.Component {
     let todaysSlots = slot.getSlotsInDay(this.props.slots, today);
     let todaysSlotsReversed = [...todaysSlots];
     todaysSlotsReversed.reverse();
+    let { slots, tasks } = this.props;
     return (
       <div className="container">
         <h1>Faffr</h1>
         <p>
           <button
                   className="btn btn-success"
-                  onClick={() => this.props.save(this.props.slots)}
+                  onClick={() => this.props.save(slots, tasks)}
                   >
             Save
           </button>

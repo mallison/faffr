@@ -14,13 +14,13 @@ export default function reduce(state = [], action) {
 
   let newState = [...state];
 
-  if (action.type === 'receiveSlots') {
+  if (action.type === 'LOAD_APP_DATA_SUCCESS') {
     /* this is for slots from timesheet.py */
     /* slots = slots.map(s => ({
        task: s[1][0],
        start: new Date(s[0])
        })); */
-    let slots = action.slots.map(s => {
+    let slots = action.data.slots.map(s => {
       let slot = {
         start: dateFromISODateString(s.start),
         task: s.task,

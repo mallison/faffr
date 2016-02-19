@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 
 import Faffr from '../components/Faffr';
-import * as actionCreators from '../actionCreators/slots';
+import * as actionCreators from '../actionCreators/api';
 
 // TODO do I need this identity function?
-const mapStateToProps = (state) => state;
+const mapStateToProps = state => state;
 
 // TODO autogenerate this, very repititve to write out?
 const mapDispatchToProps = (dispatch) => {
   return {
-    save: (slots) => {
-      dispatch(actionCreators.saveSlots(slots));
+    save: (slots, tasks) => {
+      dispatch(actionCreators.save(slots, tasks));
     },
     addSlot: (task, start) => {
       dispatch(actionCreators.addSlot(task, start));

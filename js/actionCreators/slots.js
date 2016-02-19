@@ -1,27 +1,4 @@
-import request from 'superagent';
 import getID from '../utils/getID';
-
-export function fetchSlots() {
-  return (dispatch) => {
-    return request
-      .get('/slots')
-      .end((err, res) => dispatch({
-        type: 'receiveSlots',
-        slots: res.body
-      }));
-  };
-}
-
-export function saveSlots(slots) {
-  return (dispatch) => {
-    // TODO dispatch a SAVE_START action or something
-    return request
-      .post('/slots')
-      .send(slots)
-      .end();
-    // TODO .end => dispatch save success/fail action
-  };
-}
 
 // TODO obviously these add/update/delete/... actions could generalise
 // to any list of objects
