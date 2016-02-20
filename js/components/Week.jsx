@@ -19,14 +19,16 @@ class Week extends React.Component {
 
   _renderDay(day) {
     return (
-      <div style={{'float': 'left', marginBottom: 25}} key={day}>
+      <div style={{display: 'inline-block', width: '14%'}}>
         <p><strong>{day.toDateString().slice(0, 10)}</strong></p>
-        <Day
-                day={day}
-                slots={this.props.slots}
-                tasks={this.props.tasks}
-                width={125}
-        />
+        <div style={{position: 'relative'}} key={day}>
+          <Day
+                  day={day}
+                  slots={this.props.slots}
+                  tasks={this.props.tasks}
+                  width={125}
+          />
+        </div>
       </div>
     );
   }
