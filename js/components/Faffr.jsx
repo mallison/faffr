@@ -16,8 +16,7 @@ export default class Faffr extends React.Component {
     todaysSlotsReversed.reverse();
     let { slots, tasks } = this.props;
     return (
-      <div className="container">
-        <h1>Faffr</h1>
+      <div>
         <p>
           <button
                   className="btn btn-success"

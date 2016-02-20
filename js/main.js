@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 
+import App from './components/App';
 import Faffr from './containers/Faffr';
+import Week from './components/Week';
 // TODO add index.js to reducers
 import slots from './reducers/slots';
 import tasks from './reducers/tasks';
@@ -29,7 +32,12 @@ store.dispatch(fetch());
 
 ReactDOM.render(
     <Provider store={store}>
-    <Faffr />
+    <Router history={browserHistory}>
+    <Route path="/" component={App}>
+    <IndexRoute component={Faffr}/>
+    <Route path="week" component={Week} />
+    </Route>
+    </Router>
     </Provider>,
-  document.getElementById('faffr')
+    document.getElementById('faffr')
 );

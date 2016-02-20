@@ -1,8 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+
 import Day from './Day';
 import { getDaysOfWeek } from '../calendar';
 
-export default class Week extends React.Component {
+class Week extends React.Component {
   render() {
     // TODO allow week to be specified in props
     let week = getDaysOfWeek(new Date());
@@ -29,3 +31,11 @@ export default class Week extends React.Component {
     );
   }
 }
+
+// TODO move container to other file?
+Week = connect(
+  state => ({tasks: state.tasks, slots: state.slots}),
+  () => ({})
+)(Week);
+
+export default Week;

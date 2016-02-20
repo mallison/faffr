@@ -21,9 +21,10 @@ class Timesheet(db.Model):
     def __init__(self, slots):
         self.slots = slots
 
-
-@app.route('/')
-def hello_world():
+# See http://flask.pocoo.org/snippets/57/
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def hello_world(path):
     return render_template(
         'index.html',
         is_production=os.environ.get('FAFFR_ENV') == 'production'
