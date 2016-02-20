@@ -1,21 +1,24 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+
 import Day from './Day';
 import { getDaysOfMonth } from '../calendar';
 import * as slot from '../slot';
 
-export default class Month extends React.Component {
+class Month extends React.Component {
   static defaultProps = {
     dayWidth: 100,
     dayHeight: 300
   };
 
   render() {
+    let today = new Date();
     let monthStyle = {
       width: this.props.dayWidth * 7
     };
     return (
       <div style={monthStyle}>
-        {getDaysOfMonth(this.props.year, this.props.month).map(
+        {getDaysOfMonth(today.getFullYear(), today.getMonth()).map(
           this._renderDay
         )}
       </div>
@@ -33,14 +36,25 @@ export default class Month extends React.Component {
     return (
       <div style={dayStyle} key={day.date}>
         {day.isDayInMonth ? day.number : null}
-        {day.isDayInMonth && slotsInDay.length ? <Day
-         slots={slotsInDay}
-         day={day.date}
-         tasks={this.props.tasks}
-         width={this.props.dayWidth - 20}
-         height={this.props.dayHeight - 20}
-         /> : null}
+        <div style={{position: 'relative'}}>
+          {day.isDayInMonth && slotsInDay.length ?
+           <Day
+           slots={slotsInDay}
+           day={day.date}
+           tasks={this.props.tasks}
+           width={this.props.dayWidth - 20}
+           height={this.props.dayHeight - 20}
+           /> : null}
+        </div>
       </div>
     );
   };
 }
+
+// TODO move container to other file?
+Month = connect(
+  state => ({tasks: state.tasks, slots: state.slots}),
+  () => ({})
+)(Month);
+
+export default Month;

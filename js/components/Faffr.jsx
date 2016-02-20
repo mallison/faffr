@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
 import Visualiser from './Visualiser';
-import Month from './Month';
-import Week from './Week';
 import Day from './Day';
 import Slot from './Slot';
 import TaskSwitcher from './TaskSwitcher';

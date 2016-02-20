@@ -8,6 +8,7 @@ import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import App from './components/App';
 import Faffr from './containers/Faffr';
 import Week from './components/Week';
+import Month from './components/Month';
 // TODO add index.js to reducers
 import slots from './reducers/slots';
 import tasks from './reducers/tasks';
@@ -36,6 +37,7 @@ ReactDOM.render(
     <Route path="/" component={App}>
     <IndexRoute component={Faffr}/>
     <Route path="week" component={Week} />
+    <Route path="month" component={Month} />
     </Route>
     </Router>
     </Provider>,
