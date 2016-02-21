@@ -27,10 +27,10 @@ export default class TaskMenu extends React.Component {
   _onChange = (e) => {
     let value = e.target.value;
     if (value.substr(0, 1) === '+') {
-      this.setState({isAddingNewTask: value});
+      this.setState({isAddingNewTask: true});
     } else {
       this.props.selectTask(value);
-      this.setState({isAddingNewTask: true});
+      this.setState({isAddingNewTask: false});
     }
   };
 
