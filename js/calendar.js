@@ -10,7 +10,7 @@ export function getDaysOfMonth(year, month) {
 }
 
 export function getDaysOfWeek(date) {
-  let mondayThisWeek = new Date(date - (date.getDay() - 1) * 24 * 60 * 60 * 1000);
+  let mondayThisWeek = new Date(date - (date.getDay() + 6) * 24 * 60 * 60 * 1000);
   let week = [];
   for (let i = 0; i < 7; i += 1) {
     week.push(new Date(mondayThisWeek.getTime() + i * 24 * 60 * 60 * 1000));
@@ -20,7 +20,7 @@ export function getDaysOfWeek(date) {
 
 function getfirstDayOfMonthOffsetFromMonday(year, month) {
   let firstDayOfMonth = new Date(year, month, 1);
-  return firstDayOfMonth.getDay();
+  return firstDayOfMonth.getDay() - 1;
 }
 
 function getDayOfMonth(year, month, day) {
