@@ -14,6 +14,7 @@ import slots from './reducers/slots';
 import tasks from './reducers/tasks';
 import editableSlot from './reducers/editableSlot';
 import selectedTask from './reducers/selectedTask';
+import api from './reducers/api';
 import { fetch } from './actionCreators/api';
 
 const store = createStore(
@@ -21,7 +22,8 @@ const store = createStore(
     slots,
     editableSlot,
     tasks,
-    selectedTask
+    selectedTask,
+    api
   }),
   applyMiddleware(
     thunkMiddleware

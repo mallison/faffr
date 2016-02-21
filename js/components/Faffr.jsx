@@ -4,6 +4,8 @@ import Visualiser from './Visualiser';
 import Day from './Day';
 import Slot from './Slot';
 import TaskSwitcher from './TaskSwitcher';
+import AppSaveStatus from './AppSaveStatus';
+
 import * as slot from '../slot';
 
 export default class Faffr extends React.Component {
@@ -15,6 +17,7 @@ export default class Faffr extends React.Component {
     let { slots, tasks } = this.props;
     return (
       <div>
+        <AppSaveStatus status={this.props.api} />
         <p>
           <button
                   className="btn btn-success"
