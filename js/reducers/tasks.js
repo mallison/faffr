@@ -26,7 +26,7 @@ function addSubtask(state, ancestors, task) {
   let node = state;
   let op = updateOperation;
   ancestors.forEach((a, i) => {
-    let taskID = ancestors.slice(i).join('.');
+    let taskID = ancestors.slice(0, i + 1).join('.');
     let taskIndex = node.findIndex(t => t.id === taskID);
     op[taskIndex] = {};
     op = op[taskIndex];

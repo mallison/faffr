@@ -5,21 +5,21 @@ import AddTask from '../containers/AddTask';
 
 export default class TaskMenu extends React.Component {
   state = {
-    addingNewTaskAt: null
+    isAddingNewTask: false
   };
 
   render() {
     return (
-      this.state.addingNewTaskAt === null ?
+      !this.state.isAddingNewTask ?
         <TaskSelect
                 {...this.props}
                 onChange={this._onChange}
         />
         :
         <AddTask
-                placeholder={`New ${this.state.addingNewTaskAt} task`}
                 onAddTask={this._onAddTask}
                 onCancel={this._cancelAddTask}
+                tasks={this.props.tasks}
         />
     );
   }
@@ -27,21 +27,20 @@ export default class TaskMenu extends React.Component {
   _onChange = (e) => {
     let value = e.target.value;
     if (value.substr(0, 1) === '+') {
-      this.setState({addingNewTaskAt: value});
+      this.setState({isAddingNewTask: value});
     } else {
       this.props.selectTask(value);
-      this.setState({addingNewTaskAt: null});
+      this.setState({isAddingNewTask: true});
     }
   };
 
-  _onAddTask = (name) => {
-    let ancestors = this.state.addingNewTaskAt.substr(1).split('.');
-    this.setState({addingNewTaskAt: null});
-    this.props.addTask(name, ancestors);
+  _onAddTask = (ancestors, name) => {
+    this.setState({isAddingNewTask: false});
+    this.props.addTask(ancestors, name);
   };
 
   _cancelAddTask = () => {
-    this.setState({addingNewTaskAt: null});
+    this.setState({isAddingNewTask: false});
   };
 }
 
